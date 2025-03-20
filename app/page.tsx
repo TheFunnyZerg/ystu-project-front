@@ -6,6 +6,11 @@ import styles from "../styles/Home.module.css";
 
 const Home = () => {
   const [isChecked, setIsChecked] = useState(false);
+  const [rows, setRows] = useState([
+    { color: styles.yellow, name: "Ядро ЯГТУ" },
+    { color: styles.green, name: "Ядро ИЦС" },
+    { color: styles.blue, name: "Ядро УГСН" },
+  ]);
 
   return (
     <div className={styles.container}>
@@ -54,14 +59,17 @@ const Home = () => {
                 </tr>
               </thead>
               <tbody>
+                {rows.map((row, index) => (
+                  <tr key={index}>
+                    <td className={row.color}>{row.name}</td>
+                  </tr>
+                ))}
                 <tr>
-                  <td className={styles.yellow}>Ядро ЯГТУ</td>
-                </tr>
-                <tr>
-                  <td className={styles.green}>Ядро ИЦС</td>
-                </tr>
-                <tr>
-                  <td className={styles.blue}>Ядро УГСН</td>
+                  <td className={styles.addRow}>
+                    <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M30 17.1429H17.1429V30H12.8571V17.1429H0V12.8571H12.8571V0H17.1429V12.8571H30V17.1429Z" fill="#343434"/>
+                    </svg>
+                  </td>
                 </tr>
               </tbody>
             </table>

@@ -128,6 +128,11 @@
 .green { background: lightgreen; }
 .blue { background: lightblue; }
 
+.addRow {
+  cursor: pointer;
+  background: white;
+}
+
 /* Контейнер для основного контента и боковой панели атрибутов */
 .content-wrapper {
   display: flex;
