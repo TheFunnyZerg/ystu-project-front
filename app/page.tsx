@@ -7,9 +7,9 @@ import styles from "../styles/Home.module.css";
 const Home = () => {
   const [isChecked, setIsChecked] = useState(false);
   const [rows, setRows] = useState([
-    { color: styles.yellow, name: "Ядро ЯГТУ" },
-    { color: styles.green, name: "Ядро ИЦС" },
-    { color: styles.blue, name: "Ядро УГСН" },
+    { color: "#F4F65B", name: "Ядро ЯГТУ" },
+    { color: "#9CF9A0", name: "Ядро ИЦС" },
+    { color: "#7497FF", name: "Ядро УГСН" },
   ]);
 
   return (
@@ -61,7 +61,7 @@ const Home = () => {
               <tbody>
                 {rows.map((row, index) => (
                   <tr key={index}>
-                    <td className={row.color}>{row.name}</td>
+                    <td style={{background: row.color}}>{row.name}</td>
                   </tr>
                 ))}
                 <tr>

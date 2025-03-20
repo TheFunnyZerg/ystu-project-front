@@ -110,12 +110,13 @@
 }
 
 .table {
+  background: white;
   width: 100%;
   border-collapse: collapse;
 }
 
 .table th, .table td {
-  border: 1px solid #ddd;
+  border: 1px solid #343434;
   padding: 10px;
   text-align: center;
 }
@@ -124,13 +125,8 @@
   background: #efefef;
 }
 
-.yellow { background: yellow; }
-.green { background: lightgreen; }
-.blue { background: lightblue; }
-
 .addRow {
   cursor: pointer;
-  background: white;
 }
 
 /* Контейнер для основного контента и боковой панели атрибутов */
