@@ -48,6 +48,7 @@ const Home = () => {
             <table className={styles.table}>
               <thead>
                 <tr>
+                  <th></th>
                   <th>Семестр 1</th>
                   <th>Семестр 2</th>
                   <th>Семестр 3</th>
