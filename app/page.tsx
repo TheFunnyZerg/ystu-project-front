@@ -7,10 +7,28 @@ import styles from "../styles/Home.module.css";
 const Home = () => {
   const [isChecked, setIsChecked] = useState(false);
   const [rows, setRows] = useState([
-    { color: "#F4F65B", name: "Ядро ЯГТУ" },
-    { color: "#9CF9A0", name: "Ядро ИЦС" },
-    { color: "#7497FF", name: "Ядро УГСН" },
+    { name: "Ядро ЯГТУ", color: "#F4F65B" },
+    { name: "Ядро ИЦС", color: "#9CF9A0" },
+    { name: "Ядро УГСН", color: "#7497FF" },
   ]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = (e: React.MouseEvent<HTMLDivElement>) => {
+    if ((e.target as HTMLDivElement).className === styles.modal) {
+      setIsModalOpen(false);
+    }
+  };
+
+  const addRow = () => {
+    const newCoreName = (document.getElementById("newCoreName") as HTMLInputElement).value;
+    const newCoreColor = (document.getElementById("newCoreColor") as HTMLInputElement).value;
+    setRows([...rows, { name: newCoreName, color: newCoreColor }]);
+    setIsModalOpen(false);
+  };
 
   return (
     <div className={styles.container}>
@@ -66,7 +84,7 @@ const Home = () => {
                   </tr>
                 ))}
                 <tr>
-                  <td className={styles.addRow}>
+                  <td className={styles.addRow} onClick={openModal}>
                     <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M30 17.1429H17.1429V30H12.8571V17.1429H0V12.8571H12.8571V0H17.1429V12.8571H30V17.1429Z" fill="#343434"/>
                     </svg>
@@ -130,6 +148,22 @@ const Home = () => {
           </aside>
         </div>
       </div>
+
+      {/* Модальное окно */}
+      {isModalOpen && (
+        <div className={styles.modal} onClick={closeModal}>
+          <div className={styles.modalContent}>
+            <div>
+              <p className={styles.title}>Добавить ядро</p>
+              <label htmlFor="newCoreName">Наименование</label>
+              <input type="text" id="newCoreName" defaultValue={"Ядро ИЦС"} />
+              <label htmlFor="newCoreColor">Выбор цвета</label>
+              <input type="color" id="newCoreColor" defaultValue={"#FF0000"} />
+              <button className={styles.addButton} onClick={addRow}>Добавить</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -92,7 +92,7 @@
   background: #ddd;
 }
 
-.addButton {
+.sidebar .addButton {
   margin-top: 20px;
   width: 100%;
   padding: 10px;
@@ -205,4 +205,68 @@
 /* Для меток чекбоксов */
 .attributes .checkbox-row label {
   margin-left: 5px; /* Уменьшаем отступ между чекбоксом и текстом */
+}
+
+/* Модальное окно */
+.modal {
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: clip;
+  background-color: #C3C3C3B2;
+  backdrop-filter: blur(5px)
+}
+
+/* Содержимое модального окна */
+.modalContent {
+  background-color: #fefefe;
+  padding: 24px 78px;
+  width: fit-content;
+  border-radius: 5px;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+/* Заголовок "Добавить ядро" */
+.modalContent .title {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* Формы и элементы внутри модального окна */
+.modalContent label {
+  font-size: 18px;
+  font-weight: normal;
+  display: block;
+}
+
+/* Поля ввода, выпадающие списки */
+.modalContent input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px; /* Отступ снизу */
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f1f1f1; /* Светло-серый фон */
+  color: #333; /* Черный цвет текста */
+}
+
+.modalContent button {
+  margin-top: 5px;
+  width: 100%;
+  padding: 12px;
+  background: #FFA756;
+  border: none;
+  border-radius: 3px;
+  color: #343434;
+  font-size: 20px;
+  cursor: pointer;
 }
