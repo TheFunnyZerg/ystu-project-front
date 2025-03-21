@@ -1,4 +1,8 @@
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 =======
 
 >>>>>>> Stashed changes
@@ -28,12 +32,19 @@
     cursor: pointer;
   }
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
   
 =======
+=======
+>>>>>>> Stashed changes
   
   /* Контейнер для основного контента и боковой панели атрибутов */
   .content-wrapper {
     display: flex;
     flex: 1;
+<<<<<<< Updated upstream
+  }
+>>>>>>> Stashed changes
+=======
   }
 >>>>>>> Stashed changes
