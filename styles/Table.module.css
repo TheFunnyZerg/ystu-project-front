@@ -1,11 +1,4 @@
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
-=======
-
->>>>>>> Stashed changes
 /* Основной контент с таблицей */
 .main {
     flex: 1; /* Основной контент будет занимать оставшееся пространство */
@@ -31,20 +24,10 @@
   .addRow {
     cursor: pointer;
   }
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-  
-=======
-=======
->>>>>>> Stashed changes
+
   
   /* Контейнер для основного контента и боковой панели атрибутов */
   .content-wrapper {
     display: flex;
     flex: 1;
-<<<<<<< Updated upstream
   }
->>>>>>> Stashed changes
-=======
-  }
->>>>>>> Stashed changes

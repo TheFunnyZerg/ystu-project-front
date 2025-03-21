@@ -3,6 +3,17 @@
 import React, { useState } from "react";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
+import header from "../styles/Header.module.css";
+import attributes from "../styles/Attributes.module.css";
+import table from "../styles/Table.module.css";
+import container from "../styles/Container.module.css";
+import contentWrapper from "../styles/contentWrapper.module.css";
+import mainContent from "../styles/MainContent.module.css";
+import modal from "../styles/Modal.module.css";
+import modalContent from "../styles/ModalContent.module.css";
+import sidebar from "../styles/Sidebar.module.css";
+
+
 
 const Home = () => {
   const [isChecked, setIsChecked] = useState(false);
@@ -31,17 +42,17 @@ const Home = () => {
   };
 
   return (
-    <div className={styles.container}>
+    <div className={container}>
       <Head>
         <title>Учебный план</title>
       </Head>
 
       {/* Хедер */}
-      <header className={styles.header}>
-      <img src="/images/logo.png" alt="Логотип" className={styles.logo} />
-        <div className={styles["file-info"]}>
-          <div className={styles["file-name"]}>Наименование файла</div>
-          <div className={styles["file-buttons"]}>
+      <header className={header}>
+      <img src="/images/logo.png" alt="Логотип" className={header.logo} />
+        <div className={header["file-info"]}>
+          <div className={header["file-name"]}>Наименование файла</div>
+          <div className={header["file-buttons"]}>
             <button>Файл</button>
             <button>Вид</button>
           </div>
@@ -49,21 +60,21 @@ const Home = () => {
       </header>
 
       {/* Основной контейнер для сайдбара и контента */}
-      <div className={styles["main-content"]}>
+      <div className={main["main-content"]}>
         {/* Сайдбар */}
-        <aside className={styles.sidebar}>
-          <div className={styles["discipline-list-title"]}>Список дисциплин</div>
+        <aside className={sidebar}>
+          <div className={sidebar["discipline-list-title"]}>Список дисциплин</div>
           <ul>
-            <li className={styles.active}>Дисциплина 1</li>
+            <li className={sidebar.active}>Дисциплина 1</li>
           </ul>
-          <button className={styles.addButton}>Добавить область объединения дисциплин</button>
+          <button className={sidebar.addButton}>Добавить область объединения дисциплин</button>
         </aside>
 
         {/* Контейнер для основного контента и боковой панели атрибутов */}
-        <div className={styles["content-wrapper"]}>
+        <div className={table["content-wrapper"]}>
           {/* Основной контент */}
-          <main className={styles.main}>
-            <table className={styles.table}>
+          <main className={table.main}>
+            <table className={table}>
               <thead>
                 <tr>
                   <th></th>
@@ -84,7 +95,7 @@ const Home = () => {
                   </tr>
                 ))}
                 <tr>
-                  <td className={styles.addRow} onClick={openModal}>
+                  <td className={table.addRow} onClick={openModal}>
                     <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M30 17.1429H17.1429V30H12.8571V17.1429H0V12.8571H12.8571V0H17.1429V12.8571H30V17.1429Z" fill="#343434"/>
                     </svg>
@@ -95,8 +106,8 @@ const Home = () => {
           </main>
 
           {/* Боковая панель атрибутов */}
-          <aside className={styles.attributes}>
-            <div className={styles.title}>Атрибуты дисциплин</div>
+          <aside className={attributes}>
+            <div className={attributes.title}>Атрибуты дисциплин</div>
 
             {/* Зачётные единицы */}
             <label>Зачётные единицы</label>
@@ -110,12 +121,12 @@ const Home = () => {
             </select>
 
             {/* Чекбоксы с заголовками рядом */}
-            <div className={styles["checkbox-row"]}>
+            <div className={attributes["checkbox-row"]}>
               <input type="checkbox" id="courseWork" />
               <label htmlFor="courseWork">Наличие курсовой</label>
             </div>
 
-            <div className={styles["checkbox-row"]}>
+            <div className={attributes["checkbox-row"]}>
               <input type="checkbox" id="practicalWork" />
               <label htmlFor="practicalWork">Наличие пр. работ</label>
             </div>
@@ -151,15 +162,15 @@ const Home = () => {
 
       {/* Модальное окно */}
       {isModalOpen && (
-        <div className={styles.modal} onClick={closeModal}>
-          <div className={styles.modalContent}>
+        <div className={modal} onClick={closeModal}>
+          <div className={modalContent}>
             <div>
-              <p className={styles.title}>Добавить ядро</p>
+              <p className={modalContent.title}>Добавить ядро</p>
               <label htmlFor="newCoreName">Наименование</label>
               <input type="text" id="newCoreName" defaultValue={"Ядро ИЦС"} />
               <label htmlFor="newCoreColor">Выбор цвета</label>
               <input type="color" id="newCoreColor" defaultValue={"#FF0000"} />
-              <button className={styles.addButton} onClick={addRow}>Добавить</button>
+              <button className={sidebar.addButton} onClick={addRow}>Добавить</button>
             </div>
           </div>
         </div>
