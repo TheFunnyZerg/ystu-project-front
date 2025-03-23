@@ -2,12 +2,10 @@
 
 import React, { useState } from "react";
 import Head from "next/head";
-import styles from "../styles/Home.module.css";
 import header from "../styles/Header.module.css";
 import attributes from "../styles/Attributes.module.css";
 import table from "../styles/Table.module.css";
 import container from "../styles/Container.module.css";
-import contentWrapper from "../styles/contentWrapper.module.css";
 import mainContent from "../styles/MainContent.module.css";
 import modal from "../styles/Modal.module.css";
 import modalContent from "../styles/ModalContent.module.css";
@@ -29,7 +27,7 @@ const Home = () => {
   };
 
   const closeModal = (e: React.MouseEvent<HTMLDivElement>) => {
-    if ((e.target as HTMLDivElement).className === styles.modal) {
+    if ((e.target as HTMLDivElement).className === modal.modal) {
       setIsModalOpen(false);
     }
   };
@@ -42,13 +40,13 @@ const Home = () => {
   };
 
   return (
-    <div className={container}>
+    <div className={container["container"]}>
       <Head>
         <title>Учебный план</title>
       </Head>
 
       {/* Хедер */}
-      <header className={header}>
+      <header className={header["header"]}>
       <img src="/images/logo.png" alt="Логотип" className={header.logo} />
         <div className={header["file-info"]}>
           <div className={header["file-name"]}>Наименование файла</div>
@@ -60,9 +58,9 @@ const Home = () => {
       </header>
 
       {/* Основной контейнер для сайдбара и контента */}
-      <div className={main["main-content"]}>
+      <div className={mainContent["main-content"]}>
         {/* Сайдбар */}
-        <aside className={sidebar}>
+        <aside className={sidebar["sidebar"]}>
           <div className={sidebar["discipline-list-title"]}>Список дисциплин</div>
           <ul>
             <li className={sidebar.active}>Дисциплина 1</li>
@@ -74,7 +72,7 @@ const Home = () => {
         <div className={table["content-wrapper"]}>
           {/* Основной контент */}
           <main className={table.main}>
-            <table className={table}>
+            <table className={table["table"]}>
               <thead>
                 <tr>
                   <th></th>
@@ -106,7 +104,7 @@ const Home = () => {
           </main>
 
           {/* Боковая панель атрибутов */}
-          <aside className={attributes}>
+          <aside className={attributes["attributes"]}>
             <div className={attributes.title}>Атрибуты дисциплин</div>
 
             {/* Зачётные единицы */}
@@ -162,8 +160,8 @@ const Home = () => {
 
       {/* Модальное окно */}
       {isModalOpen && (
-        <div className={modal} onClick={closeModal}>
-          <div className={modalContent}>
+        <div className={modal["modal"]} onClick={closeModal}>
+          <div className={modalContent["modalContent"]}>
             <div>
               <p className={modalContent.title}>Добавить ядро</p>
               <label htmlFor="newCoreName">Наименование</label>
