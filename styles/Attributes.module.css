@@ -1,0 +1,71 @@
+/* Боковая панель атрибутов */
+.attributes {
+    width: 300px; /* Ширина панели */
+    background: #f4f4f4;
+    padding: 20px;
+    border-left: 2px solid #ddd;
+  }
+  
+  /* Заголовок "Атрибуты дисциплин" */
+  .attributes .title {
+    font-size: 18px;
+    font-weight: bold;
+    text-decoration: underline; /* Подчеркнутый заголовок */
+    margin-bottom: 20px; /* Отступ снизу */
+  }
+  
+  /* Формы и элементы внутри панели */
+  .attributes label {
+    font-size: 16px;
+    font-weight: normal;
+    margin-top: 15px;
+    display: block;
+  }
+  
+  /* Поля ввода, выпадающие списки */
+  .attributes input, .attributes select {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 15px; /* Отступ снизу */
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f1f1f1; /* Светло-серый фон */
+    color: #333; /* Черный цвет текста */
+  }
+  
+  /* Для каждой строки с чекбоксом и подписью */
+  .attributes .checkbox-row {
+    display: flex;
+    align-items: center; /* Выравнивание по центру по вертикали */
+    margin-top: 10px;
+    margin-bottom: 10px; /* Отступ между строками */
+  }
+  
+  /* Для чекбоксов */
+  .attributes input[type="checkbox"] {
+    width: auto; /* Оставляем естественный размер чекбокса */
+    height: auto; /* Оставляем естественную высоту чекбокса */
+    margin-top: 10px;
+    margin-right: 5px; /* Уменьшаем отступ справа */
+    margin-left: 0; /* Убираем отступ слева */
+    transform: scale(0.8); /* Уменьшаем размер чекбокса */
+    vertical-align: middle; /* Выравнивание по вертикали */
+  }
+  
+  /* Для подписей чекбоксов */
+  .attributes .checkbox-row label {
+    margin-top: 0;
+    margin-left: 5px;
+    vertical-align: middle; /* Выравнивание по вертикали с чекбоксом */
+  }
+  
+  /* Каждую пару чекбокс + подпись оборачиваем в отдельный div */
+  .attributes .checkbox-row + .checkbox-row {
+    margin-top: 10px; /* Добавляем отступ между строками с чекбоксами */
+  }
+  
+  /* Для меток чекбоксов */
+  .attributes .checkbox-row label {
+    margin-left: 5px; /* Уменьшаем отступ между чекбоксом и текстом */
+  }

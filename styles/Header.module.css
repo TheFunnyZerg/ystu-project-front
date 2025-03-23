@@ -1,0 +1,46 @@
+/* Хедер */
+.header {
+    background-color: #f5f5f5;
+    padding: 15px;
+    display: flex;
+    justify-content: flex-start; /* Элементы будут располагаться слева */
+    align-items: center; /* Центрируем элементы по вертикали */
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  /* Логотип */
+  .header .logo {
+    width: 150px; /* Размер логотипа */
+    height: auto;
+    margin-right: 10px; /* Отступ справа, чтобы не было слишком близко к заголовку */
+  }
+  
+  /* Контейнер для наименования файла и кнопок */
+  .header .file-info {
+    display: flex;
+    flex-direction: column; /* Располагаем элементы в колонку */
+    align-items: flex-start; /* Выравниваем по левому краю */
+  }
+  
+  /* Заголовок "наименование файла" */
+  .header .file-info .file-name {
+    font-size: 18px; /* Размер шрифта */
+    font-weight: normal;
+  }
+  
+  /* Кнопки "файл" и "вид" */
+  .header .file-info .file-buttons button {
+    padding: 5px 10px;
+    margin-right: 10px;
+    font-size: 14px;
+    background-color: transparent; /* Убираем фон */
+    border: none; /* Убираем границу */
+    color: #333; /* Цвет текста */
+    cursor: pointer;
+    font-weight: bold; /* Сделаем текст жирным для акцента */
+  }
+  
+  .header .file-info .file-buttons button:hover {
+    color: #0070f3; /* Цвет текста при наведении */
+  }

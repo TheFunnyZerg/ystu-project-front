@@ -1,0 +1,33 @@
+
+/* Основной контент с таблицей */
+.main {
+    flex: 1; /* Основной контент будет занимать оставшееся пространство */
+    padding: 20px;
+  }
+  
+  .table {
+    background: white;
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .table th, .table td {
+    border: 1px solid #343434;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  .table th {
+    background: #efefef;
+  }
+  
+  .addRow {
+    cursor: pointer;
+  }
+
+  
+  /* Контейнер для основного контента и боковой панели атрибутов */
+  .content-wrapper {
+    display: flex;
+    flex: 1;
+  }

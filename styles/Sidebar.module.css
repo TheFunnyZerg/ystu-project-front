@@ -1,0 +1,42 @@
+
+/* Сайдбар с дисциплинами */
+.sidebar {
+    width: 250px;
+    background: #f4f4f4;
+    padding: 20px;
+    border-right: 2px solid #ddd;
+  }
+  
+  /* Заголовок "Список дисциплин" */
+  .sidebar .discipline-list-title {
+    font-size: 20px; /* Немного больший шрифт, чем у элементов списка */
+    font-weight: bold;
+    text-decoration: underline; /* Подчёркнутый текст */
+    margin-bottom: 20px; /* Отступ снизу */
+  }
+  
+  .sidebar ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .sidebar li {
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .sidebar li:hover, .sidebar .active {
+    background: #ddd;
+  }
+  
+  .sidebar .addButton {
+    margin-top: 20px;
+    width: 100%;
+    padding: 10px;
+    background: orange;
+    border: none;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+  }
