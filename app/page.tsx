@@ -30,6 +30,11 @@ const Home = () => {
     setIsModalOpen(false);
   };
 
+  const handleTextInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    e.target.style.height = "auto";
+    e.target.style.height = e.target.scrollHeight + "px";
+  };
+
   return (
     <div className={styles.container}>
       <Head>
@@ -81,6 +86,11 @@ const Home = () => {
                 {rows.map((row, index) => (
                   <tr key={index}>
                     <td style={{background: row.color}}>{row.name}</td>
+                    {Array.from({ length: 8 }).map((_, colIndex) => (
+                      <td key={colIndex}>
+                        <textarea className={styles.cell_text} cols={30} onInput={handleTextInput}/>
+                      </td>  
+                    ))}
                   </tr>
                 ))}
                 <tr>
