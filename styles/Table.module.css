@@ -25,6 +25,23 @@
     cursor: pointer;
   }
 
+  .cell_text {
+    width: 100%;
+    height: auto;
+    max-width: 300px; /* Максимальная ширина ячейки */
+    min-height: 40px; /* Минимальная высота */
+    resize: none; /* Отключает ручное изменение размера */
+    overflow: hidden; /* Скрывает лишний контент */
+    border: none; /* Убирает рамку */
+    outline: none; /* Убирает обводку при фокусе */
+    padding: 5px;
+    font-size: 14px;
+    box-sizing: border-box;
+  }
+  .cell_text:focus, .cell_text :not(:placeholder-shown) {
+    height: auto;
+    min-height: 40px;
+  }
   
   /* Контейнер для основного контента и боковой панели атрибутов */
   .content-wrapper {
