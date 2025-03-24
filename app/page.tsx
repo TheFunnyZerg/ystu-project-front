@@ -15,41 +15,11 @@ import sidebar from "../styles/Sidebar.module.css";
 
 const Home = () => {
   const [isChecked, setIsChecked] = useState(false);
-  const [rows, setRows] = useState<{ name: string; color: string; data: string[][] }[]>([
-    { name: "Ядро ЯГТУ", color: "#F4F65B", data: Array(8).fill([]).map(() => []) },
-    { name: "Ядро ИЦС", color: "#9CF9A0", data: Array(8).fill([]).map(() => []) },
-    { name: "Ядро УГСН", color: "#7497FF", data: Array(8).fill([]).map(() => []) },
+  const [rows, setRows] = useState([
+    { name: "Ядро ЯГТУ", color: "#F4F65B" },
+    { name: "Ядро ИЦС", color: "#9CF9A0" },
+    { name: "Ядро УГСН", color: "#7497FF" },
   ]);
-
-  const [disciplines, setDisciplines] = useState([
-    "Дисциплина 1",
-    "Дисциплина 2",
-    "Дисциплина 3",
-    "Дисциплина 4",
-    "Дисциплина 5",
-    "Дисциплина 6",
-  ]);
-
-  const [draggedDiscipline, setDraggedDiscipline] = useState<string | null>(null);
-
-  const handleDragStart = (discipline: string) => {
-    setDraggedDiscipline(discipline);
-  };
-
-  const handleDragOver = (e: React.DragEvent<HTMLTableCellElement>) => {
-    e.preventDefault();
-  };
-
-  const handleDrop = (e: React.DragEvent<HTMLTableCellElement>, rowIndex: number, colIndex: number) => {
-    e.preventDefault();
-    if (!draggedDiscipline) return;
-
-    const updatedRows = [...rows];
-    updatedRows[rowIndex].data[colIndex] = [...updatedRows[rowIndex].data[colIndex], draggedDiscipline];
-    setRows(updatedRows);
-    setDraggedDiscipline(null);
-  };
-
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => {
@@ -65,17 +35,9 @@ const Home = () => {
   const addRow = () => {
     const newCoreName = (document.getElementById("newCoreName") as HTMLInputElement).value;
     const newCoreColor = (document.getElementById("newCoreColor") as HTMLInputElement).value;
-
-    const newRow = {
-      name: newCoreName,
-      color: newCoreColor,
-      data: Array(8).fill(""), // Новый массив для хранения дисциплин в семестрах
-    };
-
-    setRows([...rows, newRow]);
+    setRows([...rows, { name: newCoreName, color: newCoreColor }]);
     setIsModalOpen(false);
   };
-
 
   const handleTextInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     e.target.style.height = "auto";
@@ -106,16 +68,12 @@ const Home = () => {
         <aside className={sidebar["sidebar"]}>
           <div className={sidebar["discipline-list-title"]}>Список дисциплин</div>
           <ul>
-            {disciplines.map((discipline, index) => (
-                <li
-                    key={index}
-                    draggable
-                    onDragStart={() => handleDragStart(discipline)}
-                    className={sidebar.draggableItem}
-                >
-                  {discipline}
-                </li>
-            ))}
+            <li>Дисциплина 1</li>
+            <li>Дисциплина 2</li>
+            <li>Дисциплина 3</li>
+            <li>Дисциплина 4</li>
+            <li>Дисциплина 5</li>
+            <li>Дисциплина 6</li>
           </ul>
           <button className={sidebar.addButton}>Добавить область объединения дисциплин</button>
         </aside>
@@ -126,36 +84,36 @@ const Home = () => {
           <main className={table.main}>
             <table className={table["table"]}>
               <thead>
-              <tr>
-                <th></th>
-                <th>Семестр 1</th>
-                <th>Семестр 2</th>
-                <th>Семестр 3</th>
-                <th>Семестр 4</th>
-                <th>Семестр 5</th>
-                <th>Семестр 6</th>
-                <th>Семестр 7</th>
-                <th>Семестр 8</th>
-              </tr>
+                <tr>
+                  <th></th>
+                  <th>Семестр 1</th>
+                  <th>Семестр 2</th>
+                  <th>Семестр 3</th>
+                  <th>Семестр 4</th>
+                  <th>Семестр 5</th>
+                  <th>Семестр 6</th>
+                  <th>Семестр 7</th>
+                  <th>Семестр 8</th>
+                </tr>
               </thead>
               <tbody>
-                {rows.map((row, rowIndex) => (
-                    <tr key={rowIndex}>
-                      <td style={{background: row.color}}>{row.name}</td>
-                      {row.data.map((cell, colIndex) => (
-                          <td key={colIndex}
-                              onDragOver={handleDragOver}
-                              onDrop={(e) => handleDrop(e, rowIndex, colIndex)}>
-                            {cell.map((discipline, index) => (
-                                <div key={index} className={table.disciplineItem}>
-                                  {discipline}
-                                </div>
-                            ))}
-                          </td>
-
-                      ))}
-                    </tr>
+                {rows.map((row, index) => (
+                  <tr key={index}>
+                    <td style={{background: row.color}}>{row.name}</td>
+                    {Array.from({ length: 8 }).map((_, colIndex) => (
+                      <td key={colIndex}>
+                        <textarea className={table.cell_text} cols={30} onInput={handleTextInput}/>
+                      </td>  
+                    ))}
+                  </tr>
                 ))}
+                <tr>
+                  <td className={table.addRow} onClick={openModal}>
+                    <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M30 17.1429H17.1429V30H12.8571V17.1429H0V12.8571H12.8571V0H17.1429V12.8571H30V17.1429Z" fill="#343434"/>
+                    </svg>
+                  </td>
+                </tr>
               </tbody>
             </table>
           </main>
@@ -166,12 +124,12 @@ const Home = () => {
 
             {/* Зачётные единицы */}
             <label>Зачётные единицы</label>
-            <input type="number" defaultValue={1}/>
+            <input type="number" defaultValue={1} />
 
             {/* Вид зачёта */}
             <label>Вид зачёта</label>
             <select>
-            <option>Экзамен</option>
+              <option>Экзамен</option>
               <option>Зачет</option>
             </select>
 
