@@ -15,10 +15,10 @@ import sidebar from "../styles/Sidebar.module.css";
 
 const Home = () => {
   const [isChecked, setIsChecked] = useState(false);
-  const [rows, setRows] = useState([
-    { name: "Ядро ЯГТУ", color: "#F4F65B", data: Array(8).fill("") },
-    { name: "Ядро ИЦС", color: "#9CF9A0", data: Array(8).fill("") },
-    { name: "Ядро УГСН", color: "#7497FF", data: Array(8).fill("") },
+  const [rows, setRows] = useState<{ name: string; color: string; data: string[][] }[]>([
+    { name: "Ядро ЯГТУ", color: "#F4F65B", data: Array(8).fill([]).map(() => []) },
+    { name: "Ядро ИЦС", color: "#9CF9A0", data: Array(8).fill([]).map(() => []) },
+    { name: "Ядро УГСН", color: "#7497FF", data: Array(8).fill([]).map(() => []) },
   ]);
 
   const [disciplines, setDisciplines] = useState([
@@ -45,7 +45,7 @@ const Home = () => {
     if (!draggedDiscipline) return;
 
     const updatedRows = [...rows];
-    updatedRows[rowIndex].data[colIndex] = draggedDiscipline;
+    updatedRows[rowIndex].data[colIndex] = [...updatedRows[rowIndex].data[colIndex], draggedDiscipline];
     setRows(updatedRows);
     setDraggedDiscipline(null);
   };
@@ -143,14 +143,16 @@ const Home = () => {
                     <tr key={rowIndex}>
                       <td style={{background: row.color}}>{row.name}</td>
                       {row.data.map((cell, colIndex) => (
-                          <td
-                              key={colIndex}
+                          <td key={colIndex}
                               onDragOver={handleDragOver}
-                              onDrop={(e) => handleDrop(e, rowIndex, colIndex)}
-                              className={table.dropZone}
-                          >
-                            {cell}
+                              onDrop={(e) => handleDrop(e, rowIndex, colIndex)}>
+                            {cell.map((discipline, index) => (
+                                <div key={index} className={table.disciplineItem}>
+                                  {discipline}
+                                </div>
+                            ))}
                           </td>
+
                       ))}
                     </tr>
                 ))}
