@@ -69,7 +69,7 @@ const Home = () => {
     const newRow = {
       name: newCoreName,
       color: newCoreColor,
-      data: Array(8).fill(""), // Новый массив для хранения дисциплин в семестрах
+      data: Array.from({ length: 8 }, () => []), // Новый массив для хранения дисциплин в семестрах
     };
 
     setRows([...rows, newRow]);
@@ -139,23 +139,30 @@ const Home = () => {
               </tr>
               </thead>
               <tbody>
-                {rows.map((row, rowIndex) => (
-                    <tr key={rowIndex}>
-                      <td style={{background: row.color}}>{row.name}</td>
-                      {row.data.map((cell, colIndex) => (
-                          <td key={colIndex}
-                              onDragOver={handleDragOver}
-                              onDrop={(e) => handleDrop(e, rowIndex, colIndex)}>
-                            {cell.map((discipline, index) => (
-                                <div key={index} className={table.disciplineItem}>
-                                  {discipline}
-                                </div>
-                            ))}
-                          </td>
-
-                      ))}
-                    </tr>
-                ))}
+              {rows.map((row, rowIndex) => (
+                  <tr key={rowIndex}>
+                    <td style={{background: row.color}}>{row.name}</td>
+                    {row.data.map((cell, colIndex) => (
+                        <td key={colIndex}
+                            onDragOver={handleDragOver}
+                            onDrop={(e) => handleDrop(e, rowIndex, colIndex)}>
+                          {cell.map((discipline, index) => (
+                              <div key={index} className={table.disciplineItem}>
+                                {discipline}
+                              </div>
+                          ))}
+                        </td>
+                    ))}
+                  </tr>
+              ))}
+              <tr>
+                <td className={table.addRow} onClick={openModal}>
+                  <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M30 17.1429H17.1429V30H12.8571V17.1429H0V12.8571H12.8571V0H17.1429V12.8571H30V17.1429Z"
+                          fill="#343434"/>
+                  </svg>
+                </td>
+              </tr>
               </tbody>
             </table>
           </main>
