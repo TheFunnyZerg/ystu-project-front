@@ -68,7 +68,12 @@ const Home = () => {
         <aside className={sidebar["sidebar"]}>
           <div className={sidebar["discipline-list-title"]}>Список дисциплин</div>
           <ul>
-            <li className={sidebar.active}>Дисциплина 1</li>
+            <li>Дисциплина 1</li>
+            <li>Дисциплина 2</li>
+            <li>Дисциплина 3</li>
+            <li>Дисциплина 4</li>
+            <li>Дисциплина 5</li>
+            <li>Дисциплина 6</li>
           </ul>
           <button className={sidebar.addButton}>Добавить область объединения дисциплин</button>
         </aside>

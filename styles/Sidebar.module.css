@@ -26,7 +26,7 @@
     border-radius: 5px;
   }
   
-  .sidebar li:hover, .sidebar .active {
+  .sidebar li:hover {
     background: #ddd;
   }
   
