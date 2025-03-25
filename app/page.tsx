@@ -11,7 +11,6 @@ import modal from "../styles/Modal.module.css";
 import modalContent from "../styles/ModalContent.module.css";
 import sidebar from "../styles/Sidebar.module.css";
 
-// Define discipline type
 interface Discipline {
   id: number;
   name: string;
@@ -143,17 +142,14 @@ const Home = () => {
   const handleAttributeChange = (field: keyof Discipline, value: any) => {
     if (!selectedDiscipline) return;
 
-    // Update the selected discipline
     const updatedDisciplines = disciplines.map(disc => 
       disc.id === selectedDiscipline.id ? { ...disc, [field]: value } : disc
     );
 
     setDisciplines(updatedDisciplines);
     
-    // Update the selected discipline
     setSelectedDiscipline({ ...selectedDiscipline, [field]: value });
     
-    // Update the discipline in any table cells where it appears
     const updatedRows = rows.map(row => {
       const updatedData = row.data.map(cell => 
         cell.map(cellDisc => 
@@ -185,7 +181,7 @@ const Home = () => {
     const newRow = {
       name: newCoreName,
       color: newCoreColor,
-      data: Array.from({ length: 8 }, () => []), // Новый массив для хранения дисциплин в семестрах
+      data: Array.from({ length: 8 }, () => []),
     };
 
     setRows([...rows, newRow]);
