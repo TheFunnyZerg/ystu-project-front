@@ -162,15 +162,16 @@ const Home = () => {
     setRows(updatedRows);
   };
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isCoreModalOpen, setIsCoreModalOpen] = useState(false);
 
-  const openModal = () => {
-    setIsModalOpen(true);
+
+  const openCoreModal = () => {
+    setIsCoreModalOpen(true);
   };
 
-  const closeModal = (e: React.MouseEvent<HTMLDivElement>) => {
+  const closeCoreModal = (e: React.MouseEvent<HTMLDivElement>) => {
     if ((e.target as HTMLDivElement).className === modal.modal) {
-      setIsModalOpen(false);
+      setIsCoreModalOpen(false);
     }
   };
 
@@ -185,7 +186,7 @@ const Home = () => {
     };
 
     setRows([...rows, newRow]);
-    setIsModalOpen(false);
+    setIsCoreModalOpen(false);
   };
 
 
@@ -273,7 +274,7 @@ const Home = () => {
                   </tr>
               ))}
               <tr>
-                <td className={table.addRow} onClick={openModal}>
+                <td className={table.addRow} onClick={openCoreModal}>
                   <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M30 17.1429H17.1429V30H12.8571V17.1429H0V12.8571H12.8571V0H17.1429V12.8571H30V17.1429Z"
                           fill="#343434"/>
@@ -387,9 +388,9 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Модальное окно */}
-      {isModalOpen && (
-        <div className={modal["modal"]} onClick={closeModal}>
+      {/* Модальное окно добавления ядра */}
+      {isCoreModalOpen && (
+        <div className={modal["modal"]} onClick={closeCoreModal}>
           <div className={modalContent["modalContent"]}>
             <div>
               <p className={modalContent.title}>Добавить ядро</p>
