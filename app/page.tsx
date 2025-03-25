@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Head from "next/head";
 import header from "../styles/Header.module.css";
 import attributes from "../styles/Attributes.module.css";
@@ -27,6 +27,7 @@ interface Discipline {
 
 const Home = () => {
   const [isChecked, setIsChecked] = useState(false);
+  const [columns, setColumns] = useState(8);
   const [rows, setRows] = useState<{ name: string; color: string; data: Discipline[][] }[]>([
     { name: "Ядро ЯГТУ", color: "#F4F65B", data: Array(8).fill([]).map(() => []) },
     { name: "Ядро ИЦС", color: "#9CF9A0", data: Array(8).fill([]).map(() => []) },
@@ -34,83 +35,83 @@ const Home = () => {
   ]);
 
   const [disciplines, setDisciplines] = useState<Discipline[]>([
-    { 
-      id: 1, 
-      name: "Дисциплина 1", 
-      credits: 1, 
-      examType: "Экзамен", 
-      hasCourseWork: false, 
-      hasPracticalWork: false, 
-      department: "Кибернетика", 
-      competenceCode: "3.2.4.8", 
-      lectureHours: 36, 
-      labHours: 0, 
-      practicalHours: 18 
+    {
+      id: 1,
+      name: "Дисциплина 1",
+      credits: 1,
+      examType: "Экзамен",
+      hasCourseWork: false,
+      hasPracticalWork: false,
+      department: "Кибернетика",
+      competenceCode: "3.2.4.8",
+      lectureHours: 36,
+      labHours: 0,
+      practicalHours: 18
     },
-    { 
-      id: 2, 
-      name: "Дисциплина 2", 
-      credits: 2, 
-      examType: "Зачет", 
-      hasCourseWork: true, 
-      hasPracticalWork: true, 
-      department: "Кафедра 1", 
-      competenceCode: "3.1.5.9", 
-      lectureHours: 18, 
-      labHours: 18, 
-      practicalHours: 18 
+    {
+      id: 2,
+      name: "Дисциплина 2",
+      credits: 2,
+      examType: "Зачет",
+      hasCourseWork: true,
+      hasPracticalWork: true,
+      department: "Кафедра 1",
+      competenceCode: "3.1.5.9",
+      lectureHours: 18,
+      labHours: 18,
+      practicalHours: 18
     },
-    { 
-      id: 3, 
-      name: "Дисциплина 3", 
-      credits: 3, 
-      examType: "Экзамен", 
-      hasCourseWork: false, 
-      hasPracticalWork: true, 
-      department: "Кафедра 2", 
-      competenceCode: "4.5.6.7", 
-      lectureHours: 36, 
-      labHours: 36, 
-      practicalHours: 0 
+    {
+      id: 3,
+      name: "Дисциплина 3",
+      credits: 3,
+      examType: "Экзамен",
+      hasCourseWork: false,
+      hasPracticalWork: true,
+      department: "Кафедра 2",
+      competenceCode: "4.5.6.7",
+      lectureHours: 36,
+      labHours: 36,
+      practicalHours: 0
     },
-    { 
-      id: 4, 
-      name: "Дисциплина 4", 
-      credits: 2, 
-      examType: "Зачет", 
-      hasCourseWork: false, 
-      hasPracticalWork: false, 
-      department: "Кибернетика", 
-      competenceCode: "3.2.4.8", 
-      lectureHours: 18, 
-      labHours: 0, 
-      practicalHours: 36 
+    {
+      id: 4,
+      name: "Дисциплина 4",
+      credits: 2,
+      examType: "Зачет",
+      hasCourseWork: false,
+      hasPracticalWork: false,
+      department: "Кибернетика",
+      competenceCode: "3.2.4.8",
+      lectureHours: 18,
+      labHours: 0,
+      practicalHours: 36
     },
-    { 
-      id: 5, 
-      name: "Дисциплина 5", 
-      credits: 4, 
-      examType: "Экзамен", 
-      hasCourseWork: true, 
-      hasPracticalWork: false, 
-      department: "Кафедра 1", 
-      competenceCode: "3.1.5.9", 
-      lectureHours: 36, 
-      labHours: 36, 
-      practicalHours: 36 
+    {
+      id: 5,
+      name: "Дисциплина 5",
+      credits: 4,
+      examType: "Экзамен",
+      hasCourseWork: true,
+      hasPracticalWork: false,
+      department: "Кафедра 1",
+      competenceCode: "3.1.5.9",
+      lectureHours: 36,
+      labHours: 36,
+      practicalHours: 36
     },
-    { 
-      id: 6, 
-      name: "Дисциплина 6", 
-      credits: 3, 
-      examType: "Зачет", 
-      hasCourseWork: false, 
-      hasPracticalWork: true, 
-      department: "Кафедра 2", 
-      competenceCode: "4.5.6.7", 
-      lectureHours: 36, 
-      labHours: 0, 
-      practicalHours: 36 
+    {
+      id: 6,
+      name: "Дисциплина 6",
+      credits: 3,
+      examType: "Зачет",
+      hasCourseWork: false,
+      hasPracticalWork: true,
+      department: "Кафедра 2",
+      competenceCode: "4.5.6.7",
+      lectureHours: 36,
+      labHours: 0,
+      practicalHours: 36
     },
   ]);
 
@@ -142,28 +143,42 @@ const Home = () => {
   const handleAttributeChange = (field: keyof Discipline, value: any) => {
     if (!selectedDiscipline) return;
 
-    const updatedDisciplines = disciplines.map(disc => 
+    const updatedDisciplines = disciplines.map(disc =>
       disc.id === selectedDiscipline.id ? { ...disc, [field]: value } : disc
     );
 
     setDisciplines(updatedDisciplines);
-    
+
     setSelectedDiscipline({ ...selectedDiscipline, [field]: value });
-    
+
     const updatedRows = rows.map(row => {
-      const updatedData = row.data.map(cell => 
-        cell.map(cellDisc => 
+      const updatedData = row.data.map(cell =>
+        cell.map(cellDisc =>
           cellDisc.id === selectedDiscipline.id ? { ...cellDisc, [field]: value } : cellDisc
         )
       );
       return { ...row, data: updatedData };
     });
-    
+
     setRows(updatedRows);
   };
 
+  const [isInitialModalOpen, setIsInitialModalOpen] = useState(true);
   const [isCoreModalOpen, setIsCoreModalOpen] = useState(false);
 
+  const handleInitialModalClose = () => {
+    const columnInput = (document.getElementById("columnInput") as HTMLInputElement).value;
+    const columnCount = Math.max(1, parseInt(columnInput));
+    setColumns(columnCount);
+
+    const updatedRows = rows.map(row => ({
+      ...row,
+      data: Array.from({ length: columnCount }, () => []),
+    }));
+    setRows(updatedRows);
+
+    setIsInitialModalOpen(false);
+  };
 
   const openCoreModal = () => {
     setIsCoreModalOpen(true);
@@ -182,13 +197,12 @@ const Home = () => {
     const newRow = {
       name: newCoreName,
       color: newCoreColor,
-      data: Array.from({ length: 8 }, () => []),
+      data: Array.from({ length: columns }, () => []),
     };
 
     setRows([...rows, newRow]);
     setIsCoreModalOpen(false);
   };
-
 
   const handleTextInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     e.target.style.height = "auto";
@@ -201,9 +215,21 @@ const Home = () => {
         <title>Учебный план</title>
       </Head>
 
+      {/* Модальное окно при инициализации */}
+      {isInitialModalOpen && (
+        <div className={modal["modal"]}>
+          <div className={modalContent["modalContent"]}>
+            <p className={modalContent.title}>Начальная настройка</p>
+            <label htmlFor="columnInput">Количество семестров:</label>
+            <input type="number" id="columnInput" defaultValue={columns} min={1} />
+            <button className={sidebar.addButton} onClick={handleInitialModalClose}>Применить</button>
+          </div>
+        </div>
+      )}
+
       {/* Хедер */}
       <header className={header["header"]}>
-      <img src="/images/logo.png" alt="Логотип" className={header.logo} />
+        <img src="/images/logo.png" alt="Логотип" className={header.logo} />
         <div className={header["file-info"]}>
           <div className={header["file-name"]}>Наименование файла</div>
           <div className={header["file-buttons"]}>
@@ -242,14 +268,9 @@ const Home = () => {
               <thead>
               <tr>
                 <th></th>
-                <th>Семестр 1</th>
-                <th>Семестр 2</th>
-                <th>Семестр 3</th>
-                <th>Семестр 4</th>
-                <th>Семестр 5</th>
-                <th>Семестр 6</th>
-                <th>Семестр 7</th>
-                <th>Семестр 8</th>
+                {Array.from({ length: columns }, (_, i) => (
+                  <th key={i}>Семестр {i + 1}</th>
+                ))}
               </tr>
               </thead>
               <tbody>
@@ -261,8 +282,8 @@ const Home = () => {
                             onDragOver={handleDragOver}
                             onDrop={(e) => handleDrop(e, rowIndex, colIndex)}>
                           {cell.map((discipline, index) => (
-                              <div 
-                                key={index} 
+                              <div
+                                key={index}
                                 className={table.disciplineItem}
                                 onClick={() => handleDisciplineClick(discipline)}
                               >
@@ -293,8 +314,8 @@ const Home = () => {
 
             {/* Зачётные единицы */}
             <label>Зачётные единицы</label>
-            <input 
-              type="number" 
+            <input
+              type="number"
               value={selectedDiscipline?.credits || 1}
               onChange={(e) => handleAttributeChange('credits', parseInt(e.target.value))}
               disabled={!selectedDiscipline}
@@ -302,7 +323,7 @@ const Home = () => {
 
             {/* Вид зачёта */}
             <label>Вид зачёта</label>
-            <select 
+            <select
               value={selectedDiscipline?.examType || 'Экзамен'}
               onChange={(e) => handleAttributeChange('examType', e.target.value)}
               disabled={!selectedDiscipline}
@@ -313,9 +334,9 @@ const Home = () => {
 
             {/* Чекбоксы с заголовками рядом */}
             <div className={attributes["checkbox-row"]}>
-              <input 
-                type="checkbox" 
-                id="courseWork" 
+              <input
+                type="checkbox"
+                id="courseWork"
                 checked={selectedDiscipline?.hasCourseWork || false}
                 onChange={(e) => handleAttributeChange('hasCourseWork', e.target.checked)}
                 disabled={!selectedDiscipline}
@@ -324,9 +345,9 @@ const Home = () => {
             </div>
 
             <div className={attributes["checkbox-row"]}>
-              <input 
-                type="checkbox" 
-                id="practicalWork" 
+              <input
+                type="checkbox"
+                id="practicalWork"
                 checked={selectedDiscipline?.hasPracticalWork || false}
                 onChange={(e) => handleAttributeChange('hasPracticalWork', e.target.checked)}
                 disabled={!selectedDiscipline}
@@ -336,7 +357,7 @@ const Home = () => {
 
             {/* Выпускающая кафедра */}
             <label>Выпускающая кафедра</label>
-            <select 
+            <select
               value={selectedDiscipline?.department || 'Кафедра 1'}
               onChange={(e) => handleAttributeChange('department', e.target.value)}
               disabled={!selectedDiscipline}
@@ -348,7 +369,7 @@ const Home = () => {
 
             {/* Код компетенции */}
             <label>Код компетенции</label>
-            <select 
+            <select
               value={selectedDiscipline?.competenceCode || 'Компетенция 1'}
               onChange={(e) => handleAttributeChange('competenceCode', e.target.value)}
               disabled={!selectedDiscipline}
@@ -360,8 +381,8 @@ const Home = () => {
 
             {/* Часы по лекционным */}
             <label>Часы по лекционным</label>
-            <input 
-              type="number" 
+            <input
+              type="number"
               value={selectedDiscipline?.lectureHours || 0}
               onChange={(e) => handleAttributeChange('lectureHours', parseInt(e.target.value))}
               disabled={!selectedDiscipline}
@@ -369,8 +390,8 @@ const Home = () => {
 
             {/* Часы по лабораторным */}
             <label>Часы по лабораторным</label>
-            <input 
-              type="number" 
+            <input
+              type="number"
               value={selectedDiscipline?.labHours || 0}
               onChange={(e) => handleAttributeChange('labHours', parseInt(e.target.value))}
               disabled={!selectedDiscipline}
@@ -378,8 +399,8 @@ const Home = () => {
 
             {/* Часы по практическим */}
             <label>Часы по практическим</label>
-            <input 
-              type="number" 
+            <input
+              type="number"
               value={selectedDiscipline?.practicalHours || 0}
               onChange={(e) => handleAttributeChange('practicalHours', parseInt(e.target.value))}
               disabled={!selectedDiscipline}
