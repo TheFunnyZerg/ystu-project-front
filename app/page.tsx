@@ -11,28 +11,118 @@ import modal from "../styles/Modal.module.css";
 import modalContent from "../styles/ModalContent.module.css";
 import sidebar from "../styles/Sidebar.module.css";
 
-
+// Define discipline type
+interface Discipline {
+  id: number;
+  name: string;
+  credits: number;
+  examType: string;
+  hasCourseWork: boolean;
+  hasPracticalWork: boolean;
+  department: string;
+  competenceCode: string;
+  lectureHours: number;
+  labHours: number;
+  practicalHours: number;
+}
 
 const Home = () => {
   const [isChecked, setIsChecked] = useState(false);
-  const [rows, setRows] = useState<{ name: string; color: string; data: string[][] }[]>([
+  const [rows, setRows] = useState<{ name: string; color: string; data: Discipline[][] }[]>([
     { name: "Ядро ЯГТУ", color: "#F4F65B", data: Array(8).fill([]).map(() => []) },
     { name: "Ядро ИЦС", color: "#9CF9A0", data: Array(8).fill([]).map(() => []) },
     { name: "Ядро УГСН", color: "#7497FF", data: Array(8).fill([]).map(() => []) },
   ]);
 
-  const [disciplines, setDisciplines] = useState([
-    "Дисциплина 1",
-    "Дисциплина 2",
-    "Дисциплина 3",
-    "Дисциплина 4",
-    "Дисциплина 5",
-    "Дисциплина 6",
+  const [disciplines, setDisciplines] = useState<Discipline[]>([
+    { 
+      id: 1, 
+      name: "Дисциплина 1", 
+      credits: 1, 
+      examType: "Экзамен", 
+      hasCourseWork: false, 
+      hasPracticalWork: false, 
+      department: "Кибернетика", 
+      competenceCode: "3.2.4.8", 
+      lectureHours: 36, 
+      labHours: 0, 
+      practicalHours: 18 
+    },
+    { 
+      id: 2, 
+      name: "Дисциплина 2", 
+      credits: 2, 
+      examType: "Зачет", 
+      hasCourseWork: true, 
+      hasPracticalWork: true, 
+      department: "Кафедра 1", 
+      competenceCode: "3.1.5.9", 
+      lectureHours: 18, 
+      labHours: 18, 
+      practicalHours: 18 
+    },
+    { 
+      id: 3, 
+      name: "Дисциплина 3", 
+      credits: 3, 
+      examType: "Экзамен", 
+      hasCourseWork: false, 
+      hasPracticalWork: true, 
+      department: "Кафедра 2", 
+      competenceCode: "4.5.6.7", 
+      lectureHours: 36, 
+      labHours: 36, 
+      practicalHours: 0 
+    },
+    { 
+      id: 4, 
+      name: "Дисциплина 4", 
+      credits: 2, 
+      examType: "Зачет", 
+      hasCourseWork: false, 
+      hasPracticalWork: false, 
+      department: "Кибернетика", 
+      competenceCode: "3.2.4.8", 
+      lectureHours: 18, 
+      labHours: 0, 
+      practicalHours: 36 
+    },
+    { 
+      id: 5, 
+      name: "Дисциплина 5", 
+      credits: 4, 
+      examType: "Экзамен", 
+      hasCourseWork: true, 
+      hasPracticalWork: false, 
+      department: "Кафедра 1", 
+      competenceCode: "3.1.5.9", 
+      lectureHours: 36, 
+      labHours: 36, 
+      practicalHours: 36 
+    },
+    { 
+      id: 6, 
+      name: "Дисциплина 6", 
+      credits: 3, 
+      examType: "Зачет", 
+      hasCourseWork: false, 
+      hasPracticalWork: true, 
+      department: "Кафедра 2", 
+      competenceCode: "4.5.6.7", 
+      lectureHours: 36, 
+      labHours: 0, 
+      practicalHours: 36 
+    },
   ]);
 
-  const [draggedDiscipline, setDraggedDiscipline] = useState<string | null>(null);
+  const [selectedDiscipline, setSelectedDiscipline] = useState<Discipline | null>(null);
+  const [draggedDiscipline, setDraggedDiscipline] = useState<Discipline | null>(null);
 
-  const handleDragStart = (discipline: string) => {
+  const handleDisciplineClick = (discipline: Discipline) => {
+    setSelectedDiscipline(discipline);
+  };
+
+  const handleDragStart = (discipline: Discipline) => {
     setDraggedDiscipline(discipline);
   };
 
@@ -48,6 +138,32 @@ const Home = () => {
     updatedRows[rowIndex].data[colIndex] = [...updatedRows[rowIndex].data[colIndex], draggedDiscipline];
     setRows(updatedRows);
     setDraggedDiscipline(null);
+  };
+
+  const handleAttributeChange = (field: keyof Discipline, value: any) => {
+    if (!selectedDiscipline) return;
+
+    // Update the selected discipline
+    const updatedDisciplines = disciplines.map(disc => 
+      disc.id === selectedDiscipline.id ? { ...disc, [field]: value } : disc
+    );
+
+    setDisciplines(updatedDisciplines);
+    
+    // Update the selected discipline
+    setSelectedDiscipline({ ...selectedDiscipline, [field]: value });
+    
+    // Update the discipline in any table cells where it appears
+    const updatedRows = rows.map(row => {
+      const updatedData = row.data.map(cell => 
+        cell.map(cellDisc => 
+          cellDisc.id === selectedDiscipline.id ? { ...cellDisc, [field]: value } : cellDisc
+        )
+      );
+      return { ...row, data: updatedData };
+    });
+    
+    setRows(updatedRows);
   };
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -106,14 +222,15 @@ const Home = () => {
         <aside className={sidebar["sidebar"]}>
           <div className={sidebar["discipline-list-title"]}>Список дисциплин</div>
           <ul>
-            {disciplines.map((discipline, index) => (
+            {disciplines.map((discipline) => (
                 <li
-                    key={index}
+                    key={discipline.id}
                     draggable
                     onDragStart={() => handleDragStart(discipline)}
-                    className={sidebar.draggableItem}
+                    onClick={() => handleDisciplineClick(discipline)}
+                    className={`${sidebar.draggableItem} ${selectedDiscipline?.id === discipline.id ? sidebar.selected : ''}`}
                 >
-                  {discipline}
+                  {discipline.name}
                 </li>
             ))}
           </ul>
@@ -147,8 +264,12 @@ const Home = () => {
                             onDragOver={handleDragOver}
                             onDrop={(e) => handleDrop(e, rowIndex, colIndex)}>
                           {cell.map((discipline, index) => (
-                              <div key={index} className={table.disciplineItem}>
-                                {discipline}
+                              <div 
+                                key={index} 
+                                className={table.disciplineItem}
+                                onClick={() => handleDisciplineClick(discipline)}
+                              >
+                                {discipline.name}
                               </div>
                           ))}
                         </td>
@@ -169,55 +290,103 @@ const Home = () => {
 
           {/* Боковая панель атрибутов */}
           <aside className={attributes["attributes"]}>
-            <div className={attributes.title}>Атрибуты дисциплин</div>
+            <div className={attributes.title}>
+              {selectedDiscipline ? `Атрибуты: ${selectedDiscipline.name}` : 'Атрибуты дисциплин'}
+            </div>
 
             {/* Зачётные единицы */}
             <label>Зачётные единицы</label>
-            <input type="number" defaultValue={1}/>
+            <input 
+              type="number" 
+              value={selectedDiscipline?.credits || 1}
+              onChange={(e) => handleAttributeChange('credits', parseInt(e.target.value))}
+              disabled={!selectedDiscipline}
+            />
 
             {/* Вид зачёта */}
             <label>Вид зачёта</label>
-            <select>
-            <option>Экзамен</option>
+            <select 
+              value={selectedDiscipline?.examType || 'Экзамен'}
+              onChange={(e) => handleAttributeChange('examType', e.target.value)}
+              disabled={!selectedDiscipline}
+            >
+              <option>Экзамен</option>
               <option>Зачет</option>
             </select>
 
             {/* Чекбоксы с заголовками рядом */}
             <div className={attributes["checkbox-row"]}>
-              <input type="checkbox" id="courseWork" />
+              <input 
+                type="checkbox" 
+                id="courseWork" 
+                checked={selectedDiscipline?.hasCourseWork || false}
+                onChange={(e) => handleAttributeChange('hasCourseWork', e.target.checked)}
+                disabled={!selectedDiscipline}
+              />
               <label htmlFor="courseWork">Наличие курсовой</label>
             </div>
 
             <div className={attributes["checkbox-row"]}>
-              <input type="checkbox" id="practicalWork" />
+              <input 
+                type="checkbox" 
+                id="practicalWork" 
+                checked={selectedDiscipline?.hasPracticalWork || false}
+                onChange={(e) => handleAttributeChange('hasPracticalWork', e.target.checked)}
+                disabled={!selectedDiscipline}
+              />
               <label htmlFor="practicalWork">Наличие пр. работ</label>
             </div>
 
             {/* Выпускающая кафедра */}
             <label>Выпускающая кафедра</label>
-            <select>
+            <select 
+              value={selectedDiscipline?.department || 'Кафедра 1'}
+              onChange={(e) => handleAttributeChange('department', e.target.value)}
+              disabled={!selectedDiscipline}
+            >
+              <option>Кибернетика</option>
               <option>Кафедра 1</option>
               <option>Кафедра 2</option>
             </select>
 
             {/* Код компетенции */}
             <label>Код компетенции</label>
-            <select>
-              <option>Компетенция 1</option>
-              <option>Компетенция 2</option>
+            <select 
+              value={selectedDiscipline?.competenceCode || 'Компетенция 1'}
+              onChange={(e) => handleAttributeChange('competenceCode', e.target.value)}
+              disabled={!selectedDiscipline}
+            >
+              <option>3.2.4.8</option>
+              <option>3.1.5.9</option>
+              <option>4.5.6.7</option>
             </select>
 
             {/* Часы по лекционным */}
             <label>Часы по лекционным</label>
-            <input type="number" defaultValue={0} />
+            <input 
+              type="number" 
+              value={selectedDiscipline?.lectureHours || 0}
+              onChange={(e) => handleAttributeChange('lectureHours', parseInt(e.target.value))}
+              disabled={!selectedDiscipline}
+            />
 
             {/* Часы по лабораторным */}
             <label>Часы по лабораторным</label>
-            <input type="number" defaultValue={0} />
+            <input 
+              type="number" 
+              value={selectedDiscipline?.labHours || 0}
+              onChange={(e) => handleAttributeChange('labHours', parseInt(e.target.value))}
+              disabled={!selectedDiscipline}
+            />
 
             {/* Часы по практическим */}
             <label>Часы по практическим</label>
-            <input type="number" defaultValue={0} />
+            <input 
+              type="number" 
+              value={selectedDiscipline?.practicalHours || 0}
+              onChange={(e) => handleAttributeChange('practicalHours', parseInt(e.target.value))}
+              disabled={!selectedDiscipline}
+            />
           </aside>
         </div>
       </div>

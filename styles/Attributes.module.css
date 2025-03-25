@@ -4,6 +4,28 @@
     background: #f4f4f4;
     padding: 20px;
     border-left: 2px solid #ddd;
+    max-height: calc(100vh - 100px); /* Ограничиваем высоту панели */
+    overflow-y: auto; /* Добавляем вертикальную прокрутку */
+    scrollbar-width: thin; /* Для Firefox */
+  }
+  
+  /* Стиль для полосы прокрутки (для Webkit браузеров) */
+  .attributes::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .attributes::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+  }
+  
+  .attributes::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 10px;
+  }
+  
+  .attributes::-webkit-scrollbar-thumb:hover {
+    background: #a1a1a1;
   }
   
   /* Заголовок "Атрибуты дисциплин" */
