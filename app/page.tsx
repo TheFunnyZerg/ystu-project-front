@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Head from "next/head";
 import header from "../styles/Header.module.css";
 import attributes from "../styles/Attributes.module.css";
@@ -19,7 +19,7 @@ interface Discipline {
   hasCourseWork: boolean;
   hasPracticalWork: boolean;
   department: string;
-  competenceCode: string;
+  competenceCode: string[];
   lectureHours: number;
   labHours: number;
   practicalHours: number;
@@ -64,7 +64,7 @@ const Home = () => {
       hasCourseWork: false,
       hasPracticalWork: false,
       department: "Кибернетика",
-      competenceCode: "3.2.4.8",
+      competenceCode: ["3.2.4.8"],
       lectureHours: 36,
       labHours: 0,
       practicalHours: 18,
@@ -77,7 +77,7 @@ const Home = () => {
       hasCourseWork: true,
       hasPracticalWork: true,
       department: "Кафедра 1",
-      competenceCode: "3.1.5.9",
+      competenceCode: ["3.1.5.9"],
       lectureHours: 18,
       labHours: 18,
       practicalHours: 18,
@@ -90,7 +90,7 @@ const Home = () => {
       hasCourseWork: false,
       hasPracticalWork: true,
       department: "Кафедра 2",
-      competenceCode: "4.5.6.7",
+      competenceCode: ["4.5.6.7"],
       lectureHours: 36,
       labHours: 36,
       practicalHours: 0,
@@ -103,7 +103,7 @@ const Home = () => {
       hasCourseWork: false,
       hasPracticalWork: false,
       department: "Кибернетика",
-      competenceCode: "3.2.4.8",
+      competenceCode: ["3.2.4.8"],
       lectureHours: 18,
       labHours: 0,
       practicalHours: 36,
@@ -116,7 +116,7 @@ const Home = () => {
       hasCourseWork: true,
       hasPracticalWork: false,
       department: "Кафедра 1",
-      competenceCode: "3.1.5.9",
+      competenceCode: ["3.1.5.9"],
       lectureHours: 36,
       labHours: 36,
       practicalHours: 36,
@@ -129,7 +129,7 @@ const Home = () => {
       hasCourseWork: false,
       hasPracticalWork: true,
       department: "Кафедра 2",
-      competenceCode: "4.5.6.7",
+      competenceCode: ["4.5.6.7"],
       lectureHours: 36,
       labHours: 0,
       practicalHours: 36,
@@ -307,6 +307,72 @@ const Home = () => {
   };
 
   const columnCredits = calculateColumnCredits();
+
+  const competenceOptions = ["3.2.4.8", "3.1.5.9", "4.5.6.7", "5.6.7.8"];
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showAllCompetences, setShowAllCompetences] = useState(false);
+  const searchInputRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        searchInputRef.current &&
+        !searchInputRef.current.contains(event.target as Node)
+      ) {
+        setShowAllCompetences(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const handleAddCompetence = (competence: string) => {
+    if (
+      !selectedDiscipline ||
+      selectedDiscipline.competenceCode.includes(competence)
+    )
+      return;
+
+    const updatedDisciplines = disciplines.map((disc) =>
+      disc.id === selectedDiscipline.id
+        ? { ...disc, competenceCode: [...disc.competenceCode, competence] }
+        : disc
+    );
+
+    setDisciplines(updatedDisciplines);
+
+    setSelectedDiscipline({
+      ...selectedDiscipline,
+      competenceCode: [...selectedDiscipline.competenceCode, competence],
+    });
+
+    setShowAllCompetences(false);
+    setSearchQuery("");
+  };
+
+  const handleRemoveCompetence = (competence: string) => {
+    if (!selectedDiscipline) return;
+
+    const updatedCompetenceCode = selectedDiscipline.competenceCode.filter(
+      (code) => code !== competence
+    );
+
+    const updatedDisciplines = disciplines.map((disc) =>
+      disc.id === selectedDiscipline.id
+        ? { ...disc, competenceCode: updatedCompetenceCode }
+        : disc
+    );
+
+    setDisciplines(updatedDisciplines);
+
+    setSelectedDiscipline({
+      ...selectedDiscipline,
+      competenceCode: updatedCompetenceCode,
+    });
+  };
 
   return (
     <div className={container["container"]}>
@@ -533,17 +599,46 @@ const Home = () => {
 
           {/* Код компетенции */}
           <label>Код компетенции</label>
-          <select
-            value={selectedDiscipline?.competenceCode || "Компетенция 1"}
-            onChange={(e) =>
-              handleAttributeChange("competenceCode", e.target.value)
-            }
-            disabled={!selectedDiscipline}
-          >
-            <option>3.2.4.8</option>
-            <option>3.1.5.9</option>
-            <option>4.5.6.7</option>
-          </select>
+          <div ref={searchInputRef}>
+            <input
+              type="text"
+              placeholder="Поиск компетенции"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onFocus={() => setShowAllCompetences(true)}
+              disabled={!selectedDiscipline}
+            />
+            {(searchQuery || showAllCompetences) && (
+              <ul className={attributes["search-results"]}>
+                {competenceOptions
+                  .filter(
+                    (option) =>
+                      !selectedDiscipline?.competenceCode.includes(option) &&
+                      (searchQuery ? option.includes(searchQuery) : true)
+                  )
+                  .map((option) => (
+                    <li
+                      key={option}
+                      onClick={() => handleAddCompetence(option)}
+                      className={attributes["search-result-item"]}
+                    >
+                      {option}
+                    </li>
+                  ))}
+              </ul>
+            )}
+          </div>
+          <div className={attributes["competence-bricks"]}>
+            {selectedDiscipline?.competenceCode.map((code) => (
+              <div
+                key={code}
+                className={attributes["competence-brick"]}
+                onClick={() => handleRemoveCompetence(code)}
+              >
+                {code} <span className={attributes["remove-brick"]}>×</span>
+              </div>
+            ))}
+          </div>
 
           {/* Часы по лекционным */}
           <label>Часы по лекционным</label>
