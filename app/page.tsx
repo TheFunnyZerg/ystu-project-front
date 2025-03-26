@@ -275,6 +275,23 @@ const Home = () => {
     e.target.style.height = e.target.scrollHeight + "px";
   };
 
+  const calculateTotalCredits = () => {
+    return rows.reduce((total, row) => {
+      return (
+        total +
+        row.data.reduce((rowTotal, cell) => {
+          return (
+            rowTotal +
+            cell.reduce(
+              (cellTotal, discipline) => cellTotal + discipline.credits,
+              0
+            )
+          );
+        }, 0)
+      );
+    }, 0);
+  };
+
   return (
     <div className={container["container"]}>
       <Head>
@@ -412,6 +429,9 @@ const Home = () => {
                         fill="#343434"
                       />
                     </svg>
+                  </td>
+                  <td colSpan={columns} style={{ textAlign: "left" }}>
+                    Общая сумма зачётных единиц: {calculateTotalCredits()}
                   </td>
                 </tr>
               </tbody>
