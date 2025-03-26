@@ -34,86 +34,29 @@ const Home = () => {
     { name: "Ядро УГСН", color: "#7497FF", data: Array(8).fill([]).map(() => []) },
   ]);
 
-  const [disciplines, setDisciplines] = useState<Discipline[]>([
-    {
-      id: 1,
-      name: "Дисциплина 1",
-      credits: 1,
-      examType: "Экзамен",
-      hasCourseWork: false,
-      hasPracticalWork: false,
-      department: "Кибернетика",
-      competenceCode: "3.2.4.8",
-      lectureHours: 36,
-      labHours: 0,
-      practicalHours: 18
-    },
-    {
-      id: 2,
-      name: "Дисциплина 2",
-      credits: 2,
-      examType: "Зачет",
-      hasCourseWork: true,
-      hasPracticalWork: true,
-      department: "Кафедра 1",
-      competenceCode: "3.1.5.9",
-      lectureHours: 18,
-      labHours: 18,
-      practicalHours: 18
-    },
-    {
-      id: 3,
-      name: "Дисциплина 3",
-      credits: 3,
-      examType: "Экзамен",
-      hasCourseWork: false,
-      hasPracticalWork: true,
-      department: "Кафедра 2",
-      competenceCode: "4.5.6.7",
-      lectureHours: 36,
-      labHours: 36,
-      practicalHours: 0
-    },
-    {
-      id: 4,
-      name: "Дисциплина 4",
-      credits: 2,
-      examType: "Зачет",
-      hasCourseWork: false,
-      hasPracticalWork: false,
-      department: "Кибернетика",
-      competenceCode: "3.2.4.8",
-      lectureHours: 18,
-      labHours: 0,
-      practicalHours: 36
-    },
-    {
-      id: 5,
-      name: "Дисциплина 5",
-      credits: 4,
-      examType: "Экзамен",
-      hasCourseWork: true,
-      hasPracticalWork: false,
-      department: "Кафедра 1",
-      competenceCode: "3.1.5.9",
-      lectureHours: 36,
-      labHours: 36,
-      practicalHours: 36
-    },
-    {
-      id: 6,
-      name: "Дисциплина 6",
-      credits: 3,
-      examType: "Зачет",
-      hasCourseWork: false,
-      hasPracticalWork: true,
-      department: "Кафедра 2",
-      competenceCode: "4.5.6.7",
-      lectureHours: 36,
-      labHours: 0,
-      practicalHours: 36
-    },
-  ]);
+  const [disciplines, setDisciplines] = useState<Discipline[]>([]);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchDisciplines = async () => {
+      try {
+        const response = await fetch(`http://host.docker.internal:8000/disciplines/`);
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        setDisciplines(data);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'An unknown error occurred');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDisciplines();
+  }, []);
 
   const [selectedDiscipline, setSelectedDiscipline] = useState<Discipline | null>(null);
   const [draggedDiscipline, setDraggedDiscipline] = useState<Discipline | null>(null);
