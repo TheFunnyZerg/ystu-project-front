@@ -605,33 +605,28 @@ const Home = () => {
               disabled={!selectedDiscipline}
             />
             {(searchQuery || showAllCompetences) && (
-              <ul className={attributes["search-results"]}>
+              <div className={attributes["search-results"]}>
                 {competenceOptions
                   .filter(
                     (option) =>
-                      !selectedDiscipline?.competenceCode.includes(option) &&
+                      !selectedDiscipline?.competenceCodes.includes(option) &&
                       (searchQuery ? option.includes(searchQuery) : true)
                   )
                   .map((option) => (
-                    <li
+                    <div
                       key={option}
                       onClick={() => handleAddCompetence(option)}
-                      className={attributes["search-result-item"]}
                     >
-                      {option}
-                    </li>
+                      {option} <span className={attributes["add-symbol"]}>+</span>
+                    </div>
                   ))}
-              </ul>
+              </div>
             )}
           </div>
           <div className={attributes["competence-bricks"]}>
-            {selectedDiscipline?.competenceCode.map((code) => (
-              <div
-                key={code}
-                className={attributes["competence-brick"]}
-                onClick={() => handleRemoveCompetence(code)}
-              >
-                {code} <span className={attributes["remove-brick"]}>×</span>
+            {selectedDiscipline?.competenceCodes.sort().map((code) => (
+              <div key={code} onClick={() => handleRemoveCompetence(code)}>
+                {code}
               </div>
             ))}
           </div>
