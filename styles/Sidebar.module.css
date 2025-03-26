@@ -30,11 +30,11 @@
   background: #ddd;
 }
 
-.sidebar .addButton {
-  margin-top: 20px;
+.sidebar .checkButton {
+  margin-bottom: 20px;
   width: 100%;
   padding: 10px;
-  background: orange;
+  background: rgb(255, 195, 66);
   border: none;
   color: black;
   font-weight: bold;

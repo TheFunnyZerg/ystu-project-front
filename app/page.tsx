@@ -266,10 +266,24 @@ const Home = () => {
     setIsCoreModalOpen(false);
   };
 
-  const handleTextInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    e.target.style.height = "auto";
-    e.target.style.height = e.target.scrollHeight + "px";
+  const [alertMessage, setAlertMessage] = useState<string | null>(null);
+
+  const showAlert = (message: string) => {
+    setAlertMessage(message);
+    setTimeout(() => setAlertMessage(null), 4899);
   };
+
+  {/*Функция для вызова проверки с бека*/}
+  const checkStudyPlan = () => {
+    if (true)
+    {
+      showAlert("Ошибок не найдено.");
+    }
+    else
+    {
+      showAlert("В карте учебного плана содержаться ошибки.");
+    }
+  }
 
   const calculateTotalCredits = () => {
     return rows.reduce((total, row) => {
@@ -375,7 +389,11 @@ const Home = () => {
       <Head>
         <title>Учебный план</title>
       </Head>
-
+      {alertMessage && (
+        <div className={modal.alert}>
+          <p>{alertMessage}</p>
+        </div>
+      )}
       {/* Модальное окно при инициализации */}
       {isInitialModalOpen && (
         <div className={modal["modal"]}>
@@ -414,6 +432,11 @@ const Home = () => {
       <div className={mainContent["main-content"]}>
         {/* Сайдбар */}
         <aside className={sidebar["sidebar"]}>
+          <button 
+            className={sidebar.checkButton}
+            onClick={checkStudyPlan}>
+            Проверить карту учебного плана на наличие ошибок
+          </button>
           <div className={sidebar["discipline-list-title"]}>
             Список дисциплин
           </div>
@@ -434,9 +457,6 @@ const Home = () => {
               </li>
             ))}
           </ul>
-          <button className={sidebar.addButton}>
-            Добавить область объединения дисциплин
-          </button>
         </aside>
 
         {/* Контейнер для основного контента и боковой панели атрибутов */}
