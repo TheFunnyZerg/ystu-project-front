@@ -292,6 +292,22 @@ const Home = () => {
     }, 0);
   };
 
+  const calculateColumnCredits = () => {
+    return Array.from({ length: columns }, (_, colIndex) =>
+      rows.reduce((total, row) => {
+        return (
+          total +
+          row.data[colIndex].reduce(
+            (cellTotal, discipline) => cellTotal + discipline.credits,
+            0
+          )
+        );
+      }, 0)
+    );
+  };
+
+  const columnCredits = calculateColumnCredits();
+
   return (
     <div className={container["container"]}>
       <Head>
@@ -416,6 +432,14 @@ const Home = () => {
                   </tr>
                 ))}
                 <tr>
+                  <td>Общая сумма ЗЕ: {calculateTotalCredits()}</td>
+                  {columnCredits.map((credits, colIndex) => (
+                    <td key={colIndex}>{credits} ЗЕ</td>
+                  ))}
+                </tr>
+              </tbody>
+              <tfoot>
+                <tr>
                   <td className={table.addRow} onClick={openCoreModal}>
                     <svg
                       width="30"
@@ -430,11 +454,8 @@ const Home = () => {
                       />
                     </svg>
                   </td>
-                  <td colSpan={columns} style={{ textAlign: "left" }}>
-                    Общая сумма зачётных единиц: {calculateTotalCredits()}
-                  </td>
                 </tr>
-              </tbody>
+              </tfoot>
             </table>
           </main>
         </div>
