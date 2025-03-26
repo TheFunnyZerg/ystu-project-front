@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Head from "next/head";
 import header from "../styles/Header.module.css";
 import attributes from "../styles/Attributes.module.css";
@@ -19,7 +19,7 @@ interface Discipline {
   hasCourseWork: boolean;
   hasPracticalWork: boolean;
   department: string;
-  competenceCode: string;
+  competenceCodes: string[];
   lectureHours: number;
   labHours: number;
   practicalHours: number;
@@ -64,7 +64,7 @@ const Home = () => {
       hasCourseWork: false,
       hasPracticalWork: false,
       department: "Кибернетика",
-      competenceCode: "3.2.4.8",
+      competenceCodes: ["3.2.4.8"],
       lectureHours: 36,
       labHours: 0,
       practicalHours: 18,
@@ -77,7 +77,7 @@ const Home = () => {
       hasCourseWork: true,
       hasPracticalWork: true,
       department: "Кафедра 1",
-      competenceCode: "3.1.5.9",
+      competenceCodes: ["3.1.5.9"],
       lectureHours: 18,
       labHours: 18,
       practicalHours: 18,
@@ -90,7 +90,7 @@ const Home = () => {
       hasCourseWork: false,
       hasPracticalWork: true,
       department: "Кафедра 2",
-      competenceCode: "4.5.6.7",
+      competenceCodes: ["4.5.6.7"],
       lectureHours: 36,
       labHours: 36,
       practicalHours: 0,
@@ -103,7 +103,7 @@ const Home = () => {
       hasCourseWork: false,
       hasPracticalWork: false,
       department: "Кибернетика",
-      competenceCode: "3.2.4.8",
+      competenceCodes: ["3.2.4.8"],
       lectureHours: 18,
       labHours: 0,
       practicalHours: 36,
@@ -116,7 +116,7 @@ const Home = () => {
       hasCourseWork: true,
       hasPracticalWork: false,
       department: "Кафедра 1",
-      competenceCode: "3.1.5.9",
+      competenceCodes: ["3.1.5.9"],
       lectureHours: 36,
       labHours: 36,
       practicalHours: 36,
@@ -129,7 +129,7 @@ const Home = () => {
       hasCourseWork: false,
       hasPracticalWork: true,
       department: "Кафедра 2",
-      competenceCode: "4.5.6.7",
+      competenceCodes: ["4.5.6.7"],
       lectureHours: 36,
       labHours: 0,
       practicalHours: 36,
@@ -152,14 +152,13 @@ const Home = () => {
     sourceColIndex?: number
   ) => {
     setDraggedDiscipline(discipline);
-    // Store the source position if dragging from a table cell
     if (sourceRowIndex !== undefined && sourceColIndex !== undefined) {
       discipline.sourcePosition = {
         rowIndex: sourceRowIndex,
         colIndex: sourceColIndex,
       };
     } else {
-      discipline.sourcePosition = undefined; // Reset if dragging from sidebar
+      discipline.sourcePosition = undefined;
     }
   };
 
@@ -177,18 +176,15 @@ const Home = () => {
 
     const updatedRows = [...rows];
 
-    // If the discipline is being moved from another cell
     if (draggedDiscipline.sourcePosition) {
       const { rowIndex: sourceRowIndex, colIndex: sourceColIndex } =
         draggedDiscipline.sourcePosition;
 
-      // Remove from original position
       updatedRows[sourceRowIndex].data[sourceColIndex] = updatedRows[
         sourceRowIndex
       ].data[sourceColIndex].filter((d) => d.id !== draggedDiscipline.id);
     }
 
-    // Add to new position
     updatedRows[rowIndex].data[colIndex] = [
       ...updatedRows[rowIndex].data[colIndex],
       draggedDiscipline,
@@ -307,6 +303,72 @@ const Home = () => {
   };
 
   const columnCredits = calculateColumnCredits();
+
+  const competenceOptions = ["3.2.4.8", "3.1.5.9", "4.5.6.7", "5.6.7.8"];
+  const [searchQuery, setSearchQuery] = useState("");
+  const [showAllCompetences, setShowAllCompetences] = useState(false);
+  const searchInputRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        searchInputRef.current &&
+        !searchInputRef.current.contains(event.target as Node)
+      ) {
+        setShowAllCompetences(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const handleAddCompetence = (competence: string) => {
+    if (
+      !selectedDiscipline ||
+      selectedDiscipline.competenceCodes.includes(competence)
+    )
+      return;
+
+    const updatedDisciplines = disciplines.map((disc) =>
+      disc.id === selectedDiscipline.id
+        ? { ...disc, competenceCodes: [...disc.competenceCodes, competence] }
+        : disc
+    );
+
+    setDisciplines(updatedDisciplines);
+
+    setSelectedDiscipline({
+      ...selectedDiscipline,
+      competenceCodes: [...selectedDiscipline.competenceCodes, competence],
+    });
+
+    setShowAllCompetences(false);
+    setSearchQuery("");
+  };
+
+  const handleRemoveCompetence = (competence: string) => {
+    if (!selectedDiscipline) return;
+
+    const updatedCompetenceCode = selectedDiscipline.competenceCodes.filter(
+      (code) => code !== competence
+    );
+
+    const updatedDisciplines = disciplines.map((disc) =>
+      disc.id === selectedDiscipline.id
+        ? { ...disc, competenceCodes: updatedCompetenceCode }
+        : disc
+    );
+
+    setDisciplines(updatedDisciplines);
+
+    setSelectedDiscipline({
+      ...selectedDiscipline,
+      competenceCodes: updatedCompetenceCode,
+    });
+  };
 
   return (
     <div className={container["container"]}>
@@ -531,19 +593,44 @@ const Home = () => {
             <option>Кафедра 2</option>
           </select>
 
-          {/* Код компетенции */}
-          <label>Код компетенции</label>
-          <select
-            value={selectedDiscipline?.competenceCode || "Компетенция 1"}
-            onChange={(e) =>
-              handleAttributeChange("competenceCode", e.target.value)
-            }
-            disabled={!selectedDiscipline}
-          >
-            <option>3.2.4.8</option>
-            <option>3.1.5.9</option>
-            <option>4.5.6.7</option>
-          </select>
+          {/* Коды компетенций */}
+          <label>Коды компетенций</label>
+          <div ref={searchInputRef}>
+            <input
+              type="text"
+              placeholder="Поиск компетенций"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onFocus={() => setShowAllCompetences(true)}
+              disabled={!selectedDiscipline}
+            />
+            {(searchQuery || showAllCompetences) && (
+              <div className={attributes["search-results"]}>
+                {competenceOptions
+                  .filter(
+                    (option) =>
+                      !selectedDiscipline?.competenceCodes.includes(option) &&
+                      (searchQuery ? option.includes(searchQuery) : true)
+                  )
+                  .map((option) => (
+                    <div
+                      key={option}
+                      onClick={() => handleAddCompetence(option)}
+                    >
+                      {option}
+                      <span className={attributes["add-symbol"]}>+</span>
+                    </div>
+                  ))}
+              </div>
+            )}
+          </div>
+          <div className={attributes["competence-bricks"]}>
+            {selectedDiscipline?.competenceCodes.sort().map((code) => (
+              <div key={code} onClick={() => handleRemoveCompetence(code)}>
+                {code}
+              </div>
+            ))}
+          </div>
 
           {/* Часы по лекционным */}
           <label>Часы по лекционным</label>
