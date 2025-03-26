@@ -29,10 +29,30 @@ interface Discipline {
 const Home = () => {
   const [isChecked, setIsChecked] = useState(false);
   const [columns, setColumns] = useState(8);
-  const [rows, setRows] = useState<{ name: string; color: string; data: Discipline[][] }[]>([
-    { name: "Ядро ЯГТУ", color: "#F4F65B", data: Array(8).fill([]).map(() => []) },
-    { name: "Ядро ИЦС", color: "#9CF9A0", data: Array(8).fill([]).map(() => []) },
-    { name: "Ядро УГСН", color: "#7497FF", data: Array(8).fill([]).map(() => []) },
+  const [rows, setRows] = useState<
+    { name: string; color: string; data: Discipline[][] }[]
+  >([
+    {
+      name: "Ядро ЯГТУ",
+      color: "#F4F65B",
+      data: Array(8)
+        .fill([])
+        .map(() => []),
+    },
+    {
+      name: "Ядро ИЦС",
+      color: "#9CF9A0",
+      data: Array(8)
+        .fill([])
+        .map(() => []),
+    },
+    {
+      name: "Ядро УГСН",
+      color: "#7497FF",
+      data: Array(8)
+        .fill([])
+        .map(() => []),
+    },
   ]);
 
   const [disciplines, setDisciplines] = useState<Discipline[]>([
@@ -47,7 +67,7 @@ const Home = () => {
       competenceCode: "3.2.4.8",
       lectureHours: 36,
       labHours: 0,
-      practicalHours: 18
+      practicalHours: 18,
     },
     {
       id: 2,
@@ -60,7 +80,7 @@ const Home = () => {
       competenceCode: "3.1.5.9",
       lectureHours: 18,
       labHours: 18,
-      practicalHours: 18
+      practicalHours: 18,
     },
     {
       id: 3,
@@ -73,7 +93,7 @@ const Home = () => {
       competenceCode: "4.5.6.7",
       lectureHours: 36,
       labHours: 36,
-      practicalHours: 0
+      practicalHours: 0,
     },
     {
       id: 4,
@@ -86,7 +106,7 @@ const Home = () => {
       competenceCode: "3.2.4.8",
       lectureHours: 18,
       labHours: 0,
-      practicalHours: 36
+      practicalHours: 36,
     },
     {
       id: 5,
@@ -99,7 +119,7 @@ const Home = () => {
       competenceCode: "3.1.5.9",
       lectureHours: 36,
       labHours: 36,
-      practicalHours: 36
+      practicalHours: 36,
     },
     {
       id: 6,
@@ -112,22 +132,32 @@ const Home = () => {
       competenceCode: "4.5.6.7",
       lectureHours: 36,
       labHours: 0,
-      practicalHours: 36
+      practicalHours: 36,
     },
   ]);
 
-  const [selectedDiscipline, setSelectedDiscipline] = useState<Discipline | null>(null);
-  const [draggedDiscipline, setDraggedDiscipline] = useState<Discipline | null>(null);
+  const [selectedDiscipline, setSelectedDiscipline] =
+    useState<Discipline | null>(null);
+  const [draggedDiscipline, setDraggedDiscipline] = useState<Discipline | null>(
+    null
+  );
 
   const handleDisciplineClick = (discipline: Discipline) => {
     setSelectedDiscipline(discipline);
   };
 
-  const handleDragStart = (discipline: Discipline, sourceRowIndex?: number, sourceColIndex?: number) => {
+  const handleDragStart = (
+    discipline: Discipline,
+    sourceRowIndex?: number,
+    sourceColIndex?: number
+  ) => {
     setDraggedDiscipline(discipline);
     // Store the source position if dragging from a table cell
     if (sourceRowIndex !== undefined && sourceColIndex !== undefined) {
-      discipline.sourcePosition = { rowIndex: sourceRowIndex, colIndex: sourceColIndex };
+      discipline.sourcePosition = {
+        rowIndex: sourceRowIndex,
+        colIndex: sourceColIndex,
+      };
     } else {
       discipline.sourcePosition = undefined; // Reset if dragging from sidebar
     }
@@ -137,7 +167,11 @@ const Home = () => {
     e.preventDefault();
   };
 
-  const handleDrop = (e: React.DragEvent<HTMLTableCellElement>, rowIndex: number, colIndex: number) => {
+  const handleDrop = (
+    e: React.DragEvent<HTMLTableCellElement>,
+    rowIndex: number,
+    colIndex: number
+  ) => {
     e.preventDefault();
     if (!draggedDiscipline) return;
 
@@ -145,16 +179,20 @@ const Home = () => {
 
     // If the discipline is being moved from another cell
     if (draggedDiscipline.sourcePosition) {
-      const { rowIndex: sourceRowIndex, colIndex: sourceColIndex } = draggedDiscipline.sourcePosition;
+      const { rowIndex: sourceRowIndex, colIndex: sourceColIndex } =
+        draggedDiscipline.sourcePosition;
 
       // Remove from original position
-      updatedRows[sourceRowIndex].data[sourceColIndex] = updatedRows[sourceRowIndex]
-        .data[sourceColIndex]
-        .filter(d => d.id !== draggedDiscipline.id);
+      updatedRows[sourceRowIndex].data[sourceColIndex] = updatedRows[
+        sourceRowIndex
+      ].data[sourceColIndex].filter((d) => d.id !== draggedDiscipline.id);
     }
 
     // Add to new position
-    updatedRows[rowIndex].data[colIndex] = [...updatedRows[rowIndex].data[colIndex], draggedDiscipline];
+    updatedRows[rowIndex].data[colIndex] = [
+      ...updatedRows[rowIndex].data[colIndex],
+      draggedDiscipline,
+    ];
 
     setRows(updatedRows);
     setDraggedDiscipline(null);
@@ -163,7 +201,7 @@ const Home = () => {
   const handleAttributeChange = (field: keyof Discipline, value: any) => {
     if (!selectedDiscipline) return;
 
-    const updatedDisciplines = disciplines.map(disc =>
+    const updatedDisciplines = disciplines.map((disc) =>
       disc.id === selectedDiscipline.id ? { ...disc, [field]: value } : disc
     );
 
@@ -171,10 +209,12 @@ const Home = () => {
 
     setSelectedDiscipline({ ...selectedDiscipline, [field]: value });
 
-    const updatedRows = rows.map(row => {
-      const updatedData = row.data.map(cell =>
-        cell.map(cellDisc =>
-          cellDisc.id === selectedDiscipline.id ? { ...cellDisc, [field]: value } : cellDisc
+    const updatedRows = rows.map((row) => {
+      const updatedData = row.data.map((cell) =>
+        cell.map((cellDisc) =>
+          cellDisc.id === selectedDiscipline.id
+            ? { ...cellDisc, [field]: value }
+            : cellDisc
         )
       );
       return { ...row, data: updatedData };
@@ -187,11 +227,13 @@ const Home = () => {
   const [isCoreModalOpen, setIsCoreModalOpen] = useState(false);
 
   const handleInitialModalClose = () => {
-    const columnInput = (document.getElementById("columnInput") as HTMLInputElement).value;
+    const columnInput = (
+      document.getElementById("columnInput") as HTMLInputElement
+    ).value;
     const columnCount = Math.max(1, parseInt(columnInput));
     setColumns(columnCount);
 
-    const updatedRows = rows.map(row => ({
+    const updatedRows = rows.map((row) => ({
       ...row,
       data: Array.from({ length: columnCount }, () => []),
     }));
@@ -211,8 +253,12 @@ const Home = () => {
   };
 
   const addRow = () => {
-    const newCoreName = (document.getElementById("newCoreName") as HTMLInputElement).value;
-    const newCoreColor = (document.getElementById("newCoreColor") as HTMLInputElement).value;
+    const newCoreName = (
+      document.getElementById("newCoreName") as HTMLInputElement
+    ).value;
+    const newCoreColor = (
+      document.getElementById("newCoreColor") as HTMLInputElement
+    ).value;
 
     const newRow = {
       name: newCoreName,
@@ -241,8 +287,18 @@ const Home = () => {
           <div className={modalContent["modalContent"]}>
             <p className={modalContent.title}>Начальная настройка</p>
             <label htmlFor="columnInput">Количество семестров:</label>
-            <input type="number" id="columnInput" defaultValue={columns} min={1} />
-            <button className={sidebar.addButton} onClick={handleInitialModalClose}>Применить</button>
+            <input
+              type="number"
+              id="columnInput"
+              defaultValue={columns}
+              min={1}
+            />
+            <button
+              className={sidebar.addButton}
+              onClick={handleInitialModalClose}
+            >
+              Применить
+            </button>
           </div>
         </div>
       )}
@@ -263,21 +319,29 @@ const Home = () => {
       <div className={mainContent["main-content"]}>
         {/* Сайдбар */}
         <aside className={sidebar["sidebar"]}>
-          <div className={sidebar["discipline-list-title"]}>Список дисциплин</div>
+          <div className={sidebar["discipline-list-title"]}>
+            Список дисциплин
+          </div>
           <ul>
             {disciplines.map((discipline) => (
-                <li
-                    key={discipline.id}
-                    draggable
-                    onDragStart={() => handleDragStart(discipline)}
-                    onClick={() => handleDisciplineClick(discipline)}
-                    className={`${sidebar.draggableItem} ${selectedDiscipline?.id === discipline.id ? sidebar.selected : ''}`}
-                >
-                  {discipline.name}
-                </li>
+              <li
+                key={discipline.id}
+                draggable
+                onDragStart={() => handleDragStart(discipline)}
+                onClick={() => handleDisciplineClick(discipline)}
+                className={`${sidebar.draggableItem} ${
+                  selectedDiscipline?.id === discipline.id
+                    ? sidebar.selected
+                    : ""
+                }`}
+              >
+                {discipline.name}
+              </li>
             ))}
           </ul>
-          <button className={sidebar.addButton}>Добавить область объединения дисциплин</button>
+          <button className={sidebar.addButton}>
+            Добавить область объединения дисциплин
+          </button>
         </aside>
 
         {/* Контейнер для основного контента и боковой панели атрибутов */}
@@ -286,50 +350,70 @@ const Home = () => {
           <main className={table.main}>
             <table className={table["table"]}>
               <thead>
-              <tr>
-                <th></th>
-                {Array.from({ length: columns }, (_, i) => (
-                  <th key={i}>Семестр {i + 1}</th>
-                ))}
-              </tr>
+                <tr>
+                  <th></th>
+                  {Array.from({ length: columns }, (_, i) => (
+                    <th key={i}>Семестр {i + 1}</th>
+                  ))}
+                </tr>
               </thead>
               <tbody>
-              {rows.map((row, rowIndex) => (
+                {rows.map((row, rowIndex) => (
                   <tr key={rowIndex}>
-                    <td style={{background: row.color}}>{row.name}</td>
+                    <td style={{ background: row.color }}>{row.name}</td>
                     {row.data.map((cell, colIndex) => (
-                        <td key={colIndex}
-                            style={{background: row.color}}
-                            onDragOver={handleDragOver}
-                            onDrop={(e) => handleDrop(e, rowIndex, colIndex)}>
-                          {cell.map((discipline, index) => (
-                              <div
-                                key={index}
-                                className={table.disciplineItem}
-                                onClick={() => handleDisciplineClick(discipline)}
-                                draggable
-                                onDragStart={() => handleDragStart(discipline, rowIndex, colIndex)}
-                              >
-                                <div className={table.disciplineName}>{discipline.name}</div>
-                                <div className={table.disciplineInfo}>
-                                  <span className={table.disciplineInfoItem}>{discipline.examType}</span>
-                                  <span className={table.disciplineInfoItem}>{discipline.credits} ЗЕ</span>
-                                  <span className={table.disciplineInfoItem}>{discipline.department}</span>
-                                </div>
-                              </div>
-                          ))}
-                        </td>
+                      <td
+                        key={colIndex}
+                        style={{ background: row.color }}
+                        onDragOver={handleDragOver}
+                        onDrop={(e) => handleDrop(e, rowIndex, colIndex)}
+                      >
+                        {cell.map((discipline, index) => (
+                          <div
+                            key={index}
+                            className={table.disciplineItem}
+                            onClick={() => handleDisciplineClick(discipline)}
+                            draggable
+                            onDragStart={() =>
+                              handleDragStart(discipline, rowIndex, colIndex)
+                            }
+                          >
+                            <div className={table.disciplineName}>
+                              {discipline.name}
+                            </div>
+                            <div className={table.disciplineInfo}>
+                              <span className={table.disciplineInfoItem}>
+                                {discipline.examType}
+                              </span>
+                              <span className={table.disciplineInfoItem}>
+                                {discipline.credits} ЗЕ
+                              </span>
+                              <span className={table.disciplineInfoItem}>
+                                {discipline.department}
+                              </span>
+                            </div>
+                          </div>
+                        ))}
+                      </td>
                     ))}
                   </tr>
-              ))}
-              <tr>
-                <td className={table.addRow} onClick={openCoreModal}>
-                  <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M30 17.1429H17.1429V30H12.8571V17.1429H0V12.8571H12.8571V0H17.1429V12.8571H30V17.1429Z"
-                          fill="#343434"/>
-                  </svg>
-                </td>
-              </tr>
+                ))}
+                <tr>
+                  <td className={table.addRow} onClick={openCoreModal}>
+                    <svg
+                      width="30"
+                      height="30"
+                      viewBox="0 0 30 30"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M30 17.1429H17.1429V30H12.8571V17.1429H0V12.8571H12.8571V0H17.1429V12.8571H30V17.1429Z"
+                        fill="#343434"
+                      />
+                    </svg>
+                  </td>
+                </tr>
               </tbody>
             </table>
           </main>
@@ -338,7 +422,9 @@ const Home = () => {
         {/* Боковая панель атрибутов */}
         <aside className={attributes["attributes"]}>
           <div className={attributes.title}>
-            {selectedDiscipline ? `Атрибуты: ${selectedDiscipline.name}` : 'Атрибуты дисциплин'}
+            {selectedDiscipline
+              ? `Атрибуты: ${selectedDiscipline.name}`
+              : "Атрибуты дисциплин"}
           </div>
 
           {/* Зачётные единицы */}
@@ -346,15 +432,17 @@ const Home = () => {
           <input
             type="number"
             value={selectedDiscipline?.credits || 1}
-            onChange={(e) => handleAttributeChange('credits', parseInt(e.target.value))}
+            onChange={(e) =>
+              handleAttributeChange("credits", parseInt(e.target.value))
+            }
             disabled={!selectedDiscipline}
           />
 
           {/* Вид зачёта */}
           <label>Вид зачёта</label>
           <select
-            value={selectedDiscipline?.examType || 'Экзамен'}
-            onChange={(e) => handleAttributeChange('examType', e.target.value)}
+            value={selectedDiscipline?.examType || "Экзамен"}
+            onChange={(e) => handleAttributeChange("examType", e.target.value)}
             disabled={!selectedDiscipline}
           >
             <option>Экзамен</option>
@@ -367,7 +455,9 @@ const Home = () => {
               type="checkbox"
               id="courseWork"
               checked={selectedDiscipline?.hasCourseWork || false}
-              onChange={(e) => handleAttributeChange('hasCourseWork', e.target.checked)}
+              onChange={(e) =>
+                handleAttributeChange("hasCourseWork", e.target.checked)
+              }
               disabled={!selectedDiscipline}
             />
             <label htmlFor="courseWork">Наличие курсовой</label>
@@ -378,7 +468,9 @@ const Home = () => {
               type="checkbox"
               id="practicalWork"
               checked={selectedDiscipline?.hasPracticalWork || false}
-              onChange={(e) => handleAttributeChange('hasPracticalWork', e.target.checked)}
+              onChange={(e) =>
+                handleAttributeChange("hasPracticalWork", e.target.checked)
+              }
               disabled={!selectedDiscipline}
             />
             <label htmlFor="practicalWork">Наличие пр. работ</label>
@@ -387,8 +479,10 @@ const Home = () => {
           {/* Выпускающая кафедра */}
           <label>Выпускающая кафедра</label>
           <select
-            value={selectedDiscipline?.department || 'Кафедра 1'}
-            onChange={(e) => handleAttributeChange('department', e.target.value)}
+            value={selectedDiscipline?.department || "Кафедра 1"}
+            onChange={(e) =>
+              handleAttributeChange("department", e.target.value)
+            }
             disabled={!selectedDiscipline}
           >
             <option>Кибернетика</option>
@@ -399,8 +493,10 @@ const Home = () => {
           {/* Код компетенции */}
           <label>Код компетенции</label>
           <select
-            value={selectedDiscipline?.competenceCode || 'Компетенция 1'}
-            onChange={(e) => handleAttributeChange('competenceCode', e.target.value)}
+            value={selectedDiscipline?.competenceCode || "Компетенция 1"}
+            onChange={(e) =>
+              handleAttributeChange("competenceCode", e.target.value)
+            }
             disabled={!selectedDiscipline}
           >
             <option>3.2.4.8</option>
@@ -413,7 +509,9 @@ const Home = () => {
           <input
             type="number"
             value={selectedDiscipline?.lectureHours || 0}
-            onChange={(e) => handleAttributeChange('lectureHours', parseInt(e.target.value))}
+            onChange={(e) =>
+              handleAttributeChange("lectureHours", parseInt(e.target.value))
+            }
             disabled={!selectedDiscipline}
           />
 
@@ -422,7 +520,9 @@ const Home = () => {
           <input
             type="number"
             value={selectedDiscipline?.labHours || 0}
-            onChange={(e) => handleAttributeChange('labHours', parseInt(e.target.value))}
+            onChange={(e) =>
+              handleAttributeChange("labHours", parseInt(e.target.value))
+            }
             disabled={!selectedDiscipline}
           />
 
@@ -431,7 +531,9 @@ const Home = () => {
           <input
             type="number"
             value={selectedDiscipline?.practicalHours || 0}
-            onChange={(e) => handleAttributeChange('practicalHours', parseInt(e.target.value))}
+            onChange={(e) =>
+              handleAttributeChange("practicalHours", parseInt(e.target.value))
+            }
             disabled={!selectedDiscipline}
           />
         </aside>
@@ -447,7 +549,9 @@ const Home = () => {
               <input type="text" id="newCoreName" defaultValue={"Ядро ИЦС"} />
               <label htmlFor="newCoreColor">Выбор цвета</label>
               <input type="color" id="newCoreColor" defaultValue={"#FF0000"} />
-              <button className={sidebar.addButton} onClick={addRow}>Добавить</button>
+              <button className={sidebar.addButton} onClick={addRow}>
+                Добавить
+              </button>
             </div>
           </div>
         </div>
