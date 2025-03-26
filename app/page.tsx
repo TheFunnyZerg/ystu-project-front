@@ -19,7 +19,7 @@ interface Discipline {
   hasCourseWork: boolean;
   hasPracticalWork: boolean;
   department: string;
-  competenceCode: string[];
+  competenceCodes: string[];
   lectureHours: number;
   labHours: number;
   practicalHours: number;
@@ -64,7 +64,7 @@ const Home = () => {
       hasCourseWork: false,
       hasPracticalWork: false,
       department: "Кибернетика",
-      competenceCode: ["3.2.4.8"],
+      competenceCodes: ["3.2.4.8"],
       lectureHours: 36,
       labHours: 0,
       practicalHours: 18,
@@ -77,7 +77,7 @@ const Home = () => {
       hasCourseWork: true,
       hasPracticalWork: true,
       department: "Кафедра 1",
-      competenceCode: ["3.1.5.9"],
+      competenceCodes: ["3.1.5.9"],
       lectureHours: 18,
       labHours: 18,
       practicalHours: 18,
@@ -90,7 +90,7 @@ const Home = () => {
       hasCourseWork: false,
       hasPracticalWork: true,
       department: "Кафедра 2",
-      competenceCode: ["4.5.6.7"],
+      competenceCodes: ["4.5.6.7"],
       lectureHours: 36,
       labHours: 36,
       practicalHours: 0,
@@ -103,7 +103,7 @@ const Home = () => {
       hasCourseWork: false,
       hasPracticalWork: false,
       department: "Кибернетика",
-      competenceCode: ["3.2.4.8"],
+      competenceCodes: ["3.2.4.8"],
       lectureHours: 18,
       labHours: 0,
       practicalHours: 36,
@@ -116,7 +116,7 @@ const Home = () => {
       hasCourseWork: true,
       hasPracticalWork: false,
       department: "Кафедра 1",
-      competenceCode: ["3.1.5.9"],
+      competenceCodes: ["3.1.5.9"],
       lectureHours: 36,
       labHours: 36,
       practicalHours: 36,
@@ -129,7 +129,7 @@ const Home = () => {
       hasCourseWork: false,
       hasPracticalWork: true,
       department: "Кафедра 2",
-      competenceCode: ["4.5.6.7"],
+      competenceCodes: ["4.5.6.7"],
       lectureHours: 36,
       labHours: 0,
       practicalHours: 36,
@@ -328,13 +328,13 @@ const Home = () => {
   const handleAddCompetence = (competence: string) => {
     if (
       !selectedDiscipline ||
-      selectedDiscipline.competenceCode.includes(competence)
+      selectedDiscipline.competenceCodes.includes(competence)
     )
       return;
 
     const updatedDisciplines = disciplines.map((disc) =>
       disc.id === selectedDiscipline.id
-        ? { ...disc, competenceCode: [...disc.competenceCode, competence] }
+        ? { ...disc, competenceCodes: [...disc.competenceCodes, competence] }
         : disc
     );
 
@@ -342,7 +342,7 @@ const Home = () => {
 
     setSelectedDiscipline({
       ...selectedDiscipline,
-      competenceCode: [...selectedDiscipline.competenceCode, competence],
+      competenceCodes: [...selectedDiscipline.competenceCodes, competence],
     });
 
     setShowAllCompetences(false);
@@ -352,13 +352,13 @@ const Home = () => {
   const handleRemoveCompetence = (competence: string) => {
     if (!selectedDiscipline) return;
 
-    const updatedCompetenceCode = selectedDiscipline.competenceCode.filter(
+    const updatedCompetenceCode = selectedDiscipline.competenceCodes.filter(
       (code) => code !== competence
     );
 
     const updatedDisciplines = disciplines.map((disc) =>
       disc.id === selectedDiscipline.id
-        ? { ...disc, competenceCode: updatedCompetenceCode }
+        ? { ...disc, competenceCodes: updatedCompetenceCode }
         : disc
     );
 
@@ -366,7 +366,7 @@ const Home = () => {
 
     setSelectedDiscipline({
       ...selectedDiscipline,
-      competenceCode: updatedCompetenceCode,
+      competenceCodes: updatedCompetenceCode,
     });
   };
 
@@ -593,12 +593,12 @@ const Home = () => {
             <option>Кафедра 2</option>
           </select>
 
-          {/* Код компетенции */}
-          <label>Код компетенции</label>
+          {/* Коды компетенций */}
+          <label>Коды компетенций</label>
           <div ref={searchInputRef}>
             <input
               type="text"
-              placeholder="Поиск компетенции"
+              placeholder="Поиск компетенций"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               onFocus={() => setShowAllCompetences(true)}
