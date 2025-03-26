@@ -617,7 +617,8 @@ const Home = () => {
                       key={option}
                       onClick={() => handleAddCompetence(option)}
                     >
-                      {option} <span className={attributes["add-symbol"]}>+</span>
+                      {option}
+                      <span className={attributes["add-symbol"]}>+</span>
                     </div>
                   ))}
               </div>
