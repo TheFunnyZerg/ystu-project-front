@@ -1,94 +1,96 @@
 /* Основной контент с таблицей */
 .main {
-    flex-grow: 1;
-    width: 0;
-    padding: 20px;
-    overflow: auto;
-  }
+  flex-grow: 1;
+  width: 0;
+  padding: 20px;
+  overflow: auto;
+}
 
-  .table {
-    background: white;
-    width: 100%;
-    border-collapse: collapse;
-    table-layout: fixed;
-  }
+.table {
+  background: white;
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
 
-  .table th, .table td {
-    width: 180px;
-    border: 1px solid #343434;
-    padding: 10px;
-    text-align: center;
-  }
+.table th,
+.table td {
+  width: 180px;
+  border: 1px solid #343434;
+  padding: 10px;
+  text-align: center;
+}
 
-  .table th {
-    background: #efefef;
-  }
+.table th {
+  background: #efefef;
+}
 
-  .addRow {
-    cursor: pointer;
-  }
+.addRow {
+  cursor: pointer;
+}
 
-  .cell_text {
-    width: 100%;
-    height: auto;
-    max-width: 300px; /* Максимальная ширина ячейки */
-    min-height: 40px; /* Минимальная высота */
-    resize: none; /* Отключает ручное изменение размера */
-    overflow: hidden; /* Скрывает лишний контент */
-    border: none; /* Убирает рамку */
-    outline: none; /* Убирает обводку при фокусе */
-    padding: 5px;
-    font-size: 14px;
-    box-sizing: border-box;
-    background: white;
-    color: black;
-  }
-  .cell_text:focus, .cell_text :not(:placeholder-shown) {
-    height: auto;
-    min-height: 40px;
-  }
+.cell_text {
+  width: 100%;
+  height: auto;
+  max-width: 300px;
+  min-height: 40px;
+  resize: none;
+  overflow: hidden;
+  border: none;
+  outline: none;
+  padding: 5px;
+  font-size: 14px;
+  box-sizing: border-box;
+  background: white;
+  color: black;
+}
+.cell_text:focus,
+.cell_text :not(:placeholder-shown) {
+  height: auto;
+  min-height: 40px;
+}
 
-  /* Контейнер для основного контента и боковой панели атрибутов */
-  .content-wrapper {
-    display: flex;
-    flex: 1;
-  }
+/* Контейнер для основного контента и боковой панели атрибутов */
+.content-wrapper {
+  display: flex;
+  flex: 1;
+}
 
-  .disciplineItem {
-    padding: 10px;
-    margin: 5px auto;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    cursor: grab;
-    max-width: 250px;
-    text-align: center;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    transition: all 0.2s ease;
-  }
+.disciplineItem {
+  padding: 10px;
+  margin: 5px auto;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: grab;
+  max-width: 250px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
 
-  .disciplineItem:hover {
-    background-color: #f0f0f0;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 6px rgba(0,0,0,0.15);
-  }
+.disciplineItem:hover {
+  background-color: #f0f0f0;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
 
-  .disciplineName {
-    font-weight: bold;
-    margin-bottom: 4px;
-  }
+.disciplineName {
+  font-weight: bold;
+  margin-bottom: 4px;
+}
 
-  .disciplineInfo {
-    font-size: 12px;
-    color: #666;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-  }
+.disciplineInfo {
+  font-size: 12px;
+  color: #666;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
 
-  .disciplineInfoItem {
-    padding: 2px 6px;
-    background-color: #eee;
-    border-radius: 10px;
-    white-space: nowrap;
-  }
+.disciplineInfoItem {
+  padding: 2px 6px;
+  background-color: #eee;
+  border-radius: 10px;
+  white-space: nowrap;
+}
