@@ -152,14 +152,13 @@ const Home = () => {
     sourceColIndex?: number
   ) => {
     setDraggedDiscipline(discipline);
-    // Store the source position if dragging from a table cell
     if (sourceRowIndex !== undefined && sourceColIndex !== undefined) {
       discipline.sourcePosition = {
         rowIndex: sourceRowIndex,
         colIndex: sourceColIndex,
       };
     } else {
-      discipline.sourcePosition = undefined; // Reset if dragging from sidebar
+      discipline.sourcePosition = undefined;
     }
   };
 
@@ -177,18 +176,15 @@ const Home = () => {
 
     const updatedRows = [...rows];
 
-    // If the discipline is being moved from another cell
     if (draggedDiscipline.sourcePosition) {
       const { rowIndex: sourceRowIndex, colIndex: sourceColIndex } =
         draggedDiscipline.sourcePosition;
 
-      // Remove from original position
       updatedRows[sourceRowIndex].data[sourceColIndex] = updatedRows[
         sourceRowIndex
       ].data[sourceColIndex].filter((d) => d.id !== draggedDiscipline.id);
     }
 
-    // Add to new position
     updatedRows[rowIndex].data[colIndex] = [
       ...updatedRows[rowIndex].data[colIndex],
       draggedDiscipline,
