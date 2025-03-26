@@ -1,33 +1,36 @@
 /* Боковая панель атрибутов */
 .attributes {
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
     width: 300px; /* Ширина панели */
+    height: 100%;
     background: #f4f4f4;
     padding: 20px;
     border-left: 2px solid #ddd;
-    max-height: calc(100vh - 100px); /* Ограничиваем высоту панели */
     overflow-y: auto; /* Добавляем вертикальную прокрутку */
     scrollbar-width: thin; /* Для Firefox */
   }
-  
+
   /* Стиль для полосы прокрутки (для Webkit браузеров) */
   .attributes::-webkit-scrollbar {
     width: 8px;
   }
-  
+
   .attributes::-webkit-scrollbar-track {
     background: #f1f1f1;
     border-radius: 10px;
   }
-  
+
   .attributes::-webkit-scrollbar-thumb {
     background: #c1c1c1;
     border-radius: 10px;
   }
-  
+
   .attributes::-webkit-scrollbar-thumb:hover {
     background: #a1a1a1;
   }
-  
+
   /* Заголовок "Атрибуты дисциплин" */
   .attributes .title {
     font-size: 18px;
@@ -35,7 +38,7 @@
     text-decoration: underline; /* Подчеркнутый заголовок */
     margin-bottom: 20px; /* Отступ снизу */
   }
-  
+
   /* Формы и элементы внутри панели */
   .attributes label {
     font-size: 16px;
@@ -43,7 +46,7 @@
     margin-top: 15px;
     display: block;
   }
-  
+
   /* Поля ввода, выпадающие списки */
   .attributes input, .attributes select {
     width: 100%;
@@ -55,7 +58,7 @@
     background-color: #f1f1f1; /* Светло-серый фон */
     color: #333; /* Черный цвет текста */
   }
-  
+
   /* Для каждой строки с чекбоксом и подписью */
   .attributes .checkbox-row {
     display: flex;
@@ -63,7 +66,7 @@
     margin-top: 10px;
     margin-bottom: 10px; /* Отступ между строками */
   }
-  
+
   /* Для чекбоксов */
   .attributes input[type="checkbox"] {
     width: auto; /* Оставляем естественный размер чекбокса */
@@ -74,19 +77,19 @@
     transform: scale(0.8); /* Уменьшаем размер чекбокса */
     vertical-align: middle; /* Выравнивание по вертикали */
   }
-  
+
   /* Для подписей чекбоксов */
   .attributes .checkbox-row label {
     margin-top: 0;
     margin-left: 5px;
     vertical-align: middle; /* Выравнивание по вертикали с чекбоксом */
   }
-  
+
   /* Каждую пару чекбокс + подпись оборачиваем в отдельный div */
   .attributes .checkbox-row + .checkbox-row {
     margin-top: 10px; /* Добавляем отступ между строками с чекбоксами */
   }
-  
+
   /* Для меток чекбоксов */
   .attributes .checkbox-row label {
     margin-left: 5px; /* Уменьшаем отступ между чекбоксом и текстом */

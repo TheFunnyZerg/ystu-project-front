@@ -333,108 +333,108 @@ const Home = () => {
               </tbody>
             </table>
           </main>
-
-          {/* Боковая панель атрибутов */}
-          <aside className={attributes["attributes"]}>
-            <div className={attributes.title}>
-              {selectedDiscipline ? `Атрибуты: ${selectedDiscipline.name}` : 'Атрибуты дисциплин'}
-            </div>
-
-            {/* Зачётные единицы */}
-            <label>Зачётные единицы</label>
-            <input
-              type="number"
-              value={selectedDiscipline?.credits || 1}
-              onChange={(e) => handleAttributeChange('credits', parseInt(e.target.value))}
-              disabled={!selectedDiscipline}
-            />
-
-            {/* Вид зачёта */}
-            <label>Вид зачёта</label>
-            <select
-              value={selectedDiscipline?.examType || 'Экзамен'}
-              onChange={(e) => handleAttributeChange('examType', e.target.value)}
-              disabled={!selectedDiscipline}
-            >
-              <option>Экзамен</option>
-              <option>Зачет</option>
-            </select>
-
-            {/* Чекбоксы с заголовками рядом */}
-            <div className={attributes["checkbox-row"]}>
-              <input
-                type="checkbox"
-                id="courseWork"
-                checked={selectedDiscipline?.hasCourseWork || false}
-                onChange={(e) => handleAttributeChange('hasCourseWork', e.target.checked)}
-                disabled={!selectedDiscipline}
-              />
-              <label htmlFor="courseWork">Наличие курсовой</label>
-            </div>
-
-            <div className={attributes["checkbox-row"]}>
-              <input
-                type="checkbox"
-                id="practicalWork"
-                checked={selectedDiscipline?.hasPracticalWork || false}
-                onChange={(e) => handleAttributeChange('hasPracticalWork', e.target.checked)}
-                disabled={!selectedDiscipline}
-              />
-              <label htmlFor="practicalWork">Наличие пр. работ</label>
-            </div>
-
-            {/* Выпускающая кафедра */}
-            <label>Выпускающая кафедра</label>
-            <select
-              value={selectedDiscipline?.department || 'Кафедра 1'}
-              onChange={(e) => handleAttributeChange('department', e.target.value)}
-              disabled={!selectedDiscipline}
-            >
-              <option>Кибернетика</option>
-              <option>Кафедра 1</option>
-              <option>Кафедра 2</option>
-            </select>
-
-            {/* Код компетенции */}
-            <label>Код компетенции</label>
-            <select
-              value={selectedDiscipline?.competenceCode || 'Компетенция 1'}
-              onChange={(e) => handleAttributeChange('competenceCode', e.target.value)}
-              disabled={!selectedDiscipline}
-            >
-              <option>3.2.4.8</option>
-              <option>3.1.5.9</option>
-              <option>4.5.6.7</option>
-            </select>
-
-            {/* Часы по лекционным */}
-            <label>Часы по лекционным</label>
-            <input
-              type="number"
-              value={selectedDiscipline?.lectureHours || 0}
-              onChange={(e) => handleAttributeChange('lectureHours', parseInt(e.target.value))}
-              disabled={!selectedDiscipline}
-            />
-
-            {/* Часы по лабораторным */}
-            <label>Часы по лабораторным</label>
-            <input
-              type="number"
-              value={selectedDiscipline?.labHours || 0}
-              onChange={(e) => handleAttributeChange('labHours', parseInt(e.target.value))}
-              disabled={!selectedDiscipline}
-            />
-
-            {/* Часы по практическим */}
-            <label>Часы по практическим</label>
-            <input
-              type="number"
-              value={selectedDiscipline?.practicalHours || 0}
-              onChange={(e) => handleAttributeChange('practicalHours', parseInt(e.target.value))}
-              disabled={!selectedDiscipline}
-            />
-          </aside>
         </div>
+
+        {/* Боковая панель атрибутов */}
+        <aside className={attributes["attributes"]}>
+          <div className={attributes.title}>
+            {selectedDiscipline ? `Атрибуты: ${selectedDiscipline.name}` : 'Атрибуты дисциплин'}
+          </div>
+
+          {/* Зачётные единицы */}
+          <label>Зачётные единицы</label>
+          <input
+            type="number"
+            value={selectedDiscipline?.credits || 1}
+            onChange={(e) => handleAttributeChange('credits', parseInt(e.target.value))}
+            disabled={!selectedDiscipline}
+          />
+
+          {/* Вид зачёта */}
+          <label>Вид зачёта</label>
+          <select
+            value={selectedDiscipline?.examType || 'Экзамен'}
+            onChange={(e) => handleAttributeChange('examType', e.target.value)}
+            disabled={!selectedDiscipline}
+          >
+            <option>Экзамен</option>
+            <option>Зачет</option>
+          </select>
+
+          {/* Чекбоксы с заголовками рядом */}
+          <div className={attributes["checkbox-row"]}>
+            <input
+              type="checkbox"
+              id="courseWork"
+              checked={selectedDiscipline?.hasCourseWork || false}
+              onChange={(e) => handleAttributeChange('hasCourseWork', e.target.checked)}
+              disabled={!selectedDiscipline}
+            />
+            <label htmlFor="courseWork">Наличие курсовой</label>
+          </div>
+
+          <div className={attributes["checkbox-row"]}>
+            <input
+              type="checkbox"
+              id="practicalWork"
+              checked={selectedDiscipline?.hasPracticalWork || false}
+              onChange={(e) => handleAttributeChange('hasPracticalWork', e.target.checked)}
+              disabled={!selectedDiscipline}
+            />
+            <label htmlFor="practicalWork">Наличие пр. работ</label>
+          </div>
+
+          {/* Выпускающая кафедра */}
+          <label>Выпускающая кафедра</label>
+          <select
+            value={selectedDiscipline?.department || 'Кафедра 1'}
+            onChange={(e) => handleAttributeChange('department', e.target.value)}
+            disabled={!selectedDiscipline}
+          >
+            <option>Кибернетика</option>
+            <option>Кафедра 1</option>
+            <option>Кафедра 2</option>
+          </select>
+
+          {/* Код компетенции */}
+          <label>Код компетенции</label>
+          <select
+            value={selectedDiscipline?.competenceCode || 'Компетенция 1'}
+            onChange={(e) => handleAttributeChange('competenceCode', e.target.value)}
+            disabled={!selectedDiscipline}
+          >
+            <option>3.2.4.8</option>
+            <option>3.1.5.9</option>
+            <option>4.5.6.7</option>
+          </select>
+
+          {/* Часы по лекционным */}
+          <label>Часы по лекционным</label>
+          <input
+            type="number"
+            value={selectedDiscipline?.lectureHours || 0}
+            onChange={(e) => handleAttributeChange('lectureHours', parseInt(e.target.value))}
+            disabled={!selectedDiscipline}
+          />
+
+          {/* Часы по лабораторным */}
+          <label>Часы по лабораторным</label>
+          <input
+            type="number"
+            value={selectedDiscipline?.labHours || 0}
+            onChange={(e) => handleAttributeChange('labHours', parseInt(e.target.value))}
+            disabled={!selectedDiscipline}
+          />
+
+          {/* Часы по практическим */}
+          <label>Часы по практическим</label>
+          <input
+            type="number"
+            value={selectedDiscipline?.practicalHours || 0}
+            onChange={(e) => handleAttributeChange('practicalHours', parseInt(e.target.value))}
+            disabled={!selectedDiscipline}
+          />
+        </aside>
       </div>
 
       {/* Модальное окно добавления ядра */}

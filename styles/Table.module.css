@@ -1,25 +1,29 @@
 /* Основной контент с таблицей */
 .main {
-    flex: 1; /* Основной контент будет занимать оставшееся пространство */
+    flex-grow: 1;
+    width: 0;
     padding: 20px;
+    overflow: auto;
   }
-  
+
   .table {
     background: white;
     width: 100%;
     border-collapse: collapse;
+    table-layout: fixed;
   }
-  
+
   .table th, .table td {
+    width: 180px;
     border: 1px solid #343434;
     padding: 10px;
     text-align: center;
   }
-  
+
   .table th {
     background: #efefef;
   }
-  
+
   .addRow {
     cursor: pointer;
   }
@@ -43,7 +47,7 @@
     height: auto;
     min-height: 40px;
   }
-  
+
   /* Контейнер для основного контента и боковой панели атрибутов */
   .content-wrapper {
     display: flex;
