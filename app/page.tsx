@@ -142,20 +142,20 @@ const Home = () => {
     if (!draggedDiscipline) return;
 
     const updatedRows = [...rows];
-    
+
     // If the discipline is being moved from another cell
     if (draggedDiscipline.sourcePosition) {
       const { rowIndex: sourceRowIndex, colIndex: sourceColIndex } = draggedDiscipline.sourcePosition;
-      
+
       // Remove from original position
       updatedRows[sourceRowIndex].data[sourceColIndex] = updatedRows[sourceRowIndex]
         .data[sourceColIndex]
         .filter(d => d.id !== draggedDiscipline.id);
     }
-    
+
     // Add to new position
     updatedRows[rowIndex].data[colIndex] = [...updatedRows[rowIndex].data[colIndex], draggedDiscipline];
-    
+
     setRows(updatedRows);
     setDraggedDiscipline(null);
   };
@@ -299,11 +299,12 @@ const Home = () => {
                     <td style={{background: row.color}}>{row.name}</td>
                     {row.data.map((cell, colIndex) => (
                         <td key={colIndex}
+                            style={{background: row.color}}
                             onDragOver={handleDragOver}
                             onDrop={(e) => handleDrop(e, rowIndex, colIndex)}>
                           {cell.map((discipline, index) => (
-                              <div 
-                                key={index} 
+                              <div
+                                key={index}
                                 className={table.disciplineItem}
                                 onClick={() => handleDisciplineClick(discipline)}
                                 draggable
