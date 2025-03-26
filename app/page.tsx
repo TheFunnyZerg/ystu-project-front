@@ -23,6 +23,7 @@ interface Discipline {
   lectureHours: number;
   labHours: number;
   practicalHours: number;
+  sourcePosition?: { rowIndex: number; colIndex: number };
 }
 
 const Home = () => {
@@ -122,8 +123,14 @@ const Home = () => {
     setSelectedDiscipline(discipline);
   };
 
-  const handleDragStart = (discipline: Discipline) => {
+  const handleDragStart = (discipline: Discipline, sourceRowIndex?: number, sourceColIndex?: number) => {
     setDraggedDiscipline(discipline);
+    // Store the source position if dragging from a table cell
+    if (sourceRowIndex !== undefined && sourceColIndex !== undefined) {
+      discipline.sourcePosition = { rowIndex: sourceRowIndex, colIndex: sourceColIndex };
+    } else {
+      discipline.sourcePosition = undefined; // Reset if dragging from sidebar
+    }
   };
 
   const handleDragOver = (e: React.DragEvent<HTMLTableCellElement>) => {
@@ -135,7 +142,20 @@ const Home = () => {
     if (!draggedDiscipline) return;
 
     const updatedRows = [...rows];
+    
+    // If the discipline is being moved from another cell
+    if (draggedDiscipline.sourcePosition) {
+      const { rowIndex: sourceRowIndex, colIndex: sourceColIndex } = draggedDiscipline.sourcePosition;
+      
+      // Remove from original position
+      updatedRows[sourceRowIndex].data[sourceColIndex] = updatedRows[sourceRowIndex]
+        .data[sourceColIndex]
+        .filter(d => d.id !== draggedDiscipline.id);
+    }
+    
+    // Add to new position
     updatedRows[rowIndex].data[colIndex] = [...updatedRows[rowIndex].data[colIndex], draggedDiscipline];
+    
     setRows(updatedRows);
     setDraggedDiscipline(null);
   };
@@ -282,12 +302,19 @@ const Home = () => {
                             onDragOver={handleDragOver}
                             onDrop={(e) => handleDrop(e, rowIndex, colIndex)}>
                           {cell.map((discipline, index) => (
-                              <div
-                                key={index}
+                              <div 
+                                key={index} 
                                 className={table.disciplineItem}
                                 onClick={() => handleDisciplineClick(discipline)}
+                                draggable
+                                onDragStart={() => handleDragStart(discipline, rowIndex, colIndex)}
                               >
-                                {discipline.name}
+                                <div className={table.disciplineName}>{discipline.name}</div>
+                                <div className={table.disciplineInfo}>
+                                  <span className={table.disciplineInfoItem}>{discipline.examType}</span>
+                                  <span className={table.disciplineInfoItem}>{discipline.credits} ЗЕ</span>
+                                  <span className={table.disciplineInfoItem}>{discipline.department}</span>
+                                </div>
                               </div>
                           ))}
                         </td>
