@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import attributes from "@/styles/Attributes.module.css";
 import { Discipline } from "@/app/types";
 
@@ -38,6 +38,22 @@ export const AttributesPanel = ({
     const finalValue = isNaN(numericValue) ? min : Math.max(numericValue, min);
     handleAttributeChange(field, finalValue);
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        searchInputRef.current &&
+        !searchInputRef.current.contains(event.target as Node)
+      ) {
+        setShowAllCompetences(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const isInvalidCredits = selectedDiscipline
     ? selectedDiscipline.credits >= 10 || selectedDiscipline.credits <= 0
