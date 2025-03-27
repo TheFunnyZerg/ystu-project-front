@@ -59,16 +59,8 @@ export const AttributesPanel = ({
     ? selectedDiscipline.credits >= 10 || selectedDiscipline.credits <= 0
     : false;
 
-  const isInvalidLectureHours = selectedDiscipline
-    ? selectedDiscipline.lectureHours <= 0
-    : false;
-
-  const isInvalidLabHours = selectedDiscipline
-    ? selectedDiscipline.labHours <= 0
-    : false;
-
-  const isInvalidPracticalHours = selectedDiscipline
-    ? selectedDiscipline.practicalHours <= 0
+  const isInvalidHours = selectedDiscipline
+    ? selectedDiscipline.lectureHours + selectedDiscipline.labHours + selectedDiscipline.practicalHours <= 0
     : false;
 
   const isInvalidCompetences = selectedDiscipline
@@ -186,7 +178,7 @@ export const AttributesPanel = ({
       <label>Часы по лекционным</label>
       <input
         type="number"
-        className={isInvalidLectureHours ? attributes.invalid : ""}
+        className={isInvalidHours ? attributes.invalid : ""}
         value={selectedDiscipline?.lectureHours ?? 0}
         onChange={(e) => handleNumberChange("lectureHours", e.target.value)}
         disabled={!selectedDiscipline}
@@ -196,7 +188,7 @@ export const AttributesPanel = ({
       <label>Часы по лабораторным</label>
       <input
         type="number"
-        className={isInvalidLabHours ? attributes.invalid : ""}
+        className={isInvalidHours ? attributes.invalid : ""}
         value={selectedDiscipline?.labHours ?? 0}
         onChange={(e) => handleNumberChange("labHours", e.target.value)}
         disabled={!selectedDiscipline}
@@ -206,7 +198,7 @@ export const AttributesPanel = ({
       <label>Часы по практическим</label>
       <input
         type="number"
-        className={isInvalidPracticalHours ? attributes.invalid : ""}
+        className={isInvalidHours ? attributes.invalid : ""}
         value={selectedDiscipline?.practicalHours ?? 0}
         onChange={(e) => handleNumberChange("practicalHours", e.target.value)}
         disabled={!selectedDiscipline}
