@@ -142,3 +142,8 @@
 .competence-bricks div:hover {
   background: #f88;
 }
+
+.invalid {
+  border: 2px solid #ff4444 !important;
+  border-radius: 4px;
+}

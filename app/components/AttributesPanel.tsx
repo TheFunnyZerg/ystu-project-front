@@ -29,6 +29,31 @@ export const AttributesPanel = ({
 }: AttributesPanelProps) => {
   const searchInputRef = useRef<HTMLDivElement>(null);
 
+  // Проверка условий для подсветки
+  const isInvalidCredits = selectedDiscipline
+    ? selectedDiscipline.credits >= 10 || selectedDiscipline.credits <= 0
+    : false;
+
+  const isInvalidLectureHours = selectedDiscipline
+    ? selectedDiscipline.lectureHours <= 0
+    : false;
+
+  const isInvalidLabHours = selectedDiscipline
+    ? selectedDiscipline.labHours <= 0
+    : false;
+
+  const isInvalidPracticalHours = selectedDiscipline
+    ? selectedDiscipline.practicalHours <= 0
+    : false;
+
+  const isInvalidCompetences = selectedDiscipline
+    ? selectedDiscipline.competenceCodes.length === 0
+    : false;
+
+  const isInvalidDepartment = selectedDiscipline
+    ? !selectedDiscipline.department
+    : false;
+
   return (
     <aside className={attributes["attributes"]}>
       <div className={attributes.title}>
@@ -40,7 +65,8 @@ export const AttributesPanel = ({
       <label>Зачётные единицы</label>
       <input
         type="number"
-        value={selectedDiscipline?.credits || 1}
+        className={isInvalidCredits ? attributes.invalid : ""}
+        value={selectedDiscipline?.credits ?? 1}
         onChange={(e) =>
           handleAttributeChange("credits", parseInt(e.target.value))
         }
@@ -85,6 +111,7 @@ export const AttributesPanel = ({
 
       <label>Выпускающая кафедра</label>
       <select
+        className={isInvalidDepartment ? attributes.invalid : ""}
         value={selectedDiscipline?.department || "Кафедра 1"}
         onChange={(e) => handleAttributeChange("department", e.target.value)}
         disabled={!selectedDiscipline}
@@ -95,7 +122,10 @@ export const AttributesPanel = ({
       </select>
 
       <label>Коды компетенций</label>
-      <div ref={searchInputRef}>
+      <div
+        ref={searchInputRef}
+        className={isInvalidCompetences ? attributes.invalid : ""}
+      >
         <input
           type="text"
           placeholder="Поиск компетенций"
@@ -110,7 +140,7 @@ export const AttributesPanel = ({
               .filter(
                 (option) =>
                   !selectedDiscipline?.competenceCodes.includes(option) &&
-                  (searchQuery ? option.includes(searchQuery) : true),
+                  (searchQuery ? option.includes(searchQuery) : true)
               )
               .map((option) => (
                 <div key={option} onClick={() => handleAddCompetence(option)}>
@@ -132,7 +162,8 @@ export const AttributesPanel = ({
       <label>Часы по лекционным</label>
       <input
         type="number"
-        value={selectedDiscipline?.lectureHours || 0}
+        className={isInvalidLectureHours ? attributes.invalid : ""}
+        value={selectedDiscipline?.lectureHours ?? 0}
         onChange={(e) =>
           handleAttributeChange("lectureHours", parseInt(e.target.value))
         }
@@ -142,7 +173,8 @@ export const AttributesPanel = ({
       <label>Часы по лабораторным</label>
       <input
         type="number"
-        value={selectedDiscipline?.labHours || 0}
+        className={isInvalidLabHours ? attributes.invalid : ""}
+        value={selectedDiscipline?.labHours ?? 0}
         onChange={(e) =>
           handleAttributeChange("labHours", parseInt(e.target.value))
         }
@@ -152,7 +184,8 @@ export const AttributesPanel = ({
       <label>Часы по практическим</label>
       <input
         type="number"
-        value={selectedDiscipline?.practicalHours || 0}
+        className={isInvalidPracticalHours ? attributes.invalid : ""}
+        value={selectedDiscipline?.practicalHours ?? 0}
         onChange={(e) =>
           handleAttributeChange("practicalHours", parseInt(e.target.value))
         }
