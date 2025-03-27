@@ -8,14 +8,15 @@ interface DisciplineItemProps {
   discipline: Discipline;
   onClick: () => void;
   onDragStart: () => void;
+  isActive?: boolean;
 }
 
 export const DisciplineItem = ({
   discipline,
   onClick,
   onDragStart,
+  isActive = false,
 }: DisciplineItemProps) => {
-  
   const isInvalid =
     discipline.credits >= 10 ||
     discipline.lectureHours <= 0 ||
@@ -26,9 +27,13 @@ export const DisciplineItem = ({
 
   return (
     <div
-      className={`${table.disciplineItem} ${
-        isInvalid ? table.invalidDiscipline : ""
-      }`}
+      className={[
+        table.disciplineItem,
+        isActive ? table.active : "",
+        isInvalid ? table.invalidDiscipline : "",
+      ]
+        .filter(Boolean)
+        .join(" ")}
       onClick={onClick}
       draggable
       onDragStart={onDragStart}

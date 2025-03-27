@@ -98,6 +98,7 @@ const Home = () => {
             <SemesterTable
               columns={columns}
               rows={rows}
+              selectedDiscipline={selectedDiscipline ?? undefined}
               handleDisciplineClick={handleDisciplineClick}
               handleDragStart={handleDragStart}
               handleDrop={handleDrop}

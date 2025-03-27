@@ -104,3 +104,19 @@
 .invalidDiscipline:hover {
   background-color: #ffbbbb;
 }
+
+.disciplineItem.active {
+  background-color: #e0e0e0;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+  transform: scale(0.98);
+}
+
+.disciplineItem:active {
+  transform: scale(0.96);
+}
+
+.disciplineItem.active.invalidDiscipline {
+  /* Специфичные стили для одновременного состояния */
+  border: 2px solid #ff0000;
+  background-color: #ffcccc;
+}
