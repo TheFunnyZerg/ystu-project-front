@@ -29,7 +29,6 @@ export const AttributesPanel = ({
 }: AttributesPanelProps) => {
   const searchInputRef = useRef<HTMLDivElement>(null);
 
-  // Новая функция для обработки числовых изменений
   const handleNumberChange = (
     field: keyof Discipline,
     value: string,
@@ -40,7 +39,6 @@ export const AttributesPanel = ({
     handleAttributeChange(field, finalValue);
   };
 
-  // Проверка условий для подсветки
   const isInvalidCredits = selectedDiscipline
     ? selectedDiscipline.credits >= 10 || selectedDiscipline.credits <= 0
     : false;
