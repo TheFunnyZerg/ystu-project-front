@@ -37,7 +37,7 @@ export const useTableState = () => {
       return prevRows.map((row) => ({
         ...row,
         data: Array.from({ length: columns }, (_, colIndex) =>
-          colIndex < row.data.length ? row.data[colIndex] : [],
+          colIndex < row.data.length ? row.data[colIndex] : []
         ),
       }));
     });
@@ -52,7 +52,7 @@ export const useTableState = () => {
             rowTotal +
             cell.reduce(
               (cellTotal, discipline) => cellTotal + (discipline?.credits || 0),
-              0,
+              0
             )
           );
         }, 0)
@@ -68,10 +68,10 @@ export const useTableState = () => {
           total +
           cellData.reduce(
             (cellTotal, discipline) => cellTotal + (discipline?.credits || 0),
-            0,
+            0
           )
         );
-      }, 0),
+      }, 0)
     );
   };
 
@@ -93,6 +93,10 @@ export const useTableState = () => {
     ]);
   };
 
+  const handleRowDelete = (rowIndex: number) => {
+    setRows((prevRows) => prevRows.filter((_, index) => index !== rowIndex));
+  };
+
   return {
     columns,
     rows,
@@ -101,5 +105,6 @@ export const useTableState = () => {
     calculateTotalCredits,
     calculateColumnCredits,
     addRow,
+    handleRowDelete,
   };
 };

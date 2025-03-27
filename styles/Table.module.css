@@ -25,6 +25,25 @@
   background: #efefef;
 }
 
+.row-name {
+  text-align: left !important;
+}
+
+.delete-row {
+  width: 18px;
+  height: 18px;
+  float: right;
+  text-align: center;
+  background: #f88;
+  border-radius: 100%;
+  cursor: pointer;
+  visibility: hidden;
+}
+
+.row-name:hover .delete-row {
+  visibility: visible;
+}
+
 .addRow {
   cursor: pointer;
 }
