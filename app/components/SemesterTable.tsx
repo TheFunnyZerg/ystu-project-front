@@ -43,6 +43,7 @@ export const SemesterTable = ({
                     {row.data.map((cell, colIndex) => (
                         <td
                             key={colIndex}
+                            style={{ background: row.color }}
                             onDragOver={(e) => e.preventDefault()}
                             onDrop={(e) => handleDrop(e, rowIndex, colIndex)}
                         >
