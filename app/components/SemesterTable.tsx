@@ -61,7 +61,7 @@ export const SemesterTable = ({
                   <DisciplineItem
                     key={`${discipline.id}-${index}`}
                     discipline={discipline}
-                    isActive={selectedDiscipline?.id === discipline.id} // Передаем состояние активности
+                    isActive={selectedDiscipline?.id === discipline.id}
                     onClick={() => handleDisciplineClick(discipline)}
                     onDragStart={() =>
                       handleDragStart(discipline, rowIndex, colIndex)
