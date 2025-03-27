@@ -15,7 +15,7 @@ export const DisciplineItem = ({
   onClick,
   onDragStart,
 }: DisciplineItemProps) => {
-  // Проверка на валидность дисциплины
+  
   const isInvalid =
     discipline.credits >= 10 ||
     discipline.lectureHours <= 0 ||
