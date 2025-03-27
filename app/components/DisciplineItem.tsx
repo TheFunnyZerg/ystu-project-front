@@ -19,9 +19,7 @@ export const DisciplineItem = ({
 }: DisciplineItemProps) => {
   const isInvalid =
     discipline.credits >= 10 ||
-    discipline.lectureHours <= 0 ||
-    discipline.labHours <= 0 ||
-    discipline.practicalHours <= 0 ||
+    discipline.lectureHours + discipline.labHours + discipline.practicalHours <= 0 ||
     discipline.competenceCodes.length === 0 ||
     !discipline.department;
 
