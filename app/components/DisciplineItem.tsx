@@ -15,9 +15,20 @@ export const DisciplineItem = ({
   onClick,
   onDragStart,
 }: DisciplineItemProps) => {
+  // Проверка на валидность дисциплины
+  const isInvalid =
+    discipline.credits >= 10 ||
+    discipline.lectureHours <= 0 ||
+    discipline.labHours <= 0 ||
+    discipline.practicalHours <= 0 ||
+    discipline.competenceCodes.length === 0 ||
+    !discipline.department;
+
   return (
     <div
-      className={table.disciplineItem}
+      className={`${table.disciplineItem} ${
+        isInvalid ? table.invalidDiscipline : ""
+      }`}
       onClick={onClick}
       draggable
       onDragStart={onDragStart}
