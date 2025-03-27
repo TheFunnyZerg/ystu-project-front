@@ -39,16 +39,13 @@ const Home = () => {
     handleAttributeChange,
   } = useDisciplines(setRows);
 
-  const {
-    alertMessage,
-    showAlert,
-    closeAlert
-  } = useAlert();
+  const { alertMessage, showAlert, closeAlert } = useAlert();
 
-  const {
-    handleDragStart,
-    handleDrop,
-  } = useDragAndDrop(rows, setRows, disciplines);
+  const { handleDragStart, handleDrop } = useDragAndDrop(
+    rows,
+    setRows,
+    disciplines,
+  );
 
   const {
     searchQuery,
@@ -57,17 +54,15 @@ const Home = () => {
     setSearchQuery,
     setShowAllCompetences,
     handleAddCompetence,
-    handleRemoveCompetence
+    handleRemoveCompetence,
   } = useCompetences(selectedDiscipline, handleAttributeChange);
 
-  const {
-    initialModal,
-    coreModal,
-    handleInitialModalClose
-  } = useModals(setColumns);
+  const { initialModal, coreModal, handleInitialModalClose } =
+    useModals(setColumns);
 
   const handleDisciplineClick = (discipline: Discipline) => {
-    const actualDiscipline = disciplines.find(d => d.id === discipline.id) || discipline;
+    const actualDiscipline =
+      disciplines.find((d) => d.id === discipline.id) || discipline;
     setSelectedDiscipline(actualDiscipline);
   };
 
@@ -76,70 +71,70 @@ const Home = () => {
   };
 
   return (
-      <div className={container["container"]}>
-        <Head>
-          <title>Учебный план</title>
-        </Head>
+    <div className={container["container"]}>
+      <Head>
+        <title>Учебный план</title>
+      </Head>
 
-        <Alert message={alertMessage} onClose={closeAlert} />
+      <Alert message={alertMessage} onClose={closeAlert} />
 
-        {initialModal.isOpen && (
-            <InitialModal handleInitialModalClose={handleInitialModalClose} />
-        )}
+      {initialModal.isOpen && (
+        <InitialModal handleInitialModalClose={handleInitialModalClose} />
+      )}
 
-        <Header />
+      <Header />
 
-        <div className={mainContent["main-content"]}>
-          <Sidebar
-              checkStudyPlan={checkStudyPlan}
-              disciplines={disciplines}
-              selectedDiscipline={selectedDiscipline}
+      <div className={mainContent["main-content"]}>
+        <Sidebar
+          checkStudyPlan={checkStudyPlan}
+          disciplines={disciplines}
+          selectedDiscipline={selectedDiscipline}
+          handleDisciplineClick={handleDisciplineClick}
+          handleDragStart={handleDragStart}
+        />
+
+        <div className={table["content-wrapper"]}>
+          <main className={table.main}>
+            <SemesterTable
+              columns={columns}
+              rows={rows}
               handleDisciplineClick={handleDisciplineClick}
               handleDragStart={handleDragStart}
-          />
-
-          <div className={table["content-wrapper"]}>
-            <main className={table.main}>
-              <SemesterTable
-                  columns={columns}
-                  rows={rows}
-                  handleDisciplineClick={handleDisciplineClick}
-                  handleDragStart={handleDragStart}
-                  handleDrop={handleDrop}
-                  calculateTotalCredits={calculateTotalCredits}
-                  calculateColumnCredits={calculateColumnCredits}
-                  openCoreModal={coreModal.openModal}
-              />
-            </main>
-          </div>
-
-          <AttributesPanel
-              selectedDiscipline={selectedDiscipline}
-              handleAttributeChange={handleAttributeChange}
-              competenceOptions={competenceOptions}
-              handleAddCompetence={handleAddCompetence}
-              handleRemoveCompetence={handleRemoveCompetence}
-              searchQuery={searchQuery}
-              setSearchQuery={setSearchQuery}
-              showAllCompetences={showAllCompetences}
-              setShowAllCompetences={setShowAllCompetences}
-          />
+              handleDrop={handleDrop}
+              calculateTotalCredits={calculateTotalCredits}
+              calculateColumnCredits={calculateColumnCredits}
+              openCoreModal={coreModal.openModal}
+            />
+          </main>
         </div>
 
-        {coreModal.isOpen && (
-            <CoreModal
-                closeCoreModal={(e) => {
-                  if ((e.target as HTMLDivElement).className === modal.modal) {
-                    coreModal.closeModal();
-                  }
-                }}
-                addRow={() => {
-                  addRow();
-                  coreModal.closeModal();
-                }}
-            />
-        )}
+        <AttributesPanel
+          selectedDiscipline={selectedDiscipline}
+          handleAttributeChange={handleAttributeChange}
+          competenceOptions={competenceOptions}
+          handleAddCompetence={handleAddCompetence}
+          handleRemoveCompetence={handleRemoveCompetence}
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          showAllCompetences={showAllCompetences}
+          setShowAllCompetences={setShowAllCompetences}
+        />
       </div>
+
+      {coreModal.isOpen && (
+        <CoreModal
+          closeCoreModal={(e) => {
+            if ((e.target as HTMLDivElement).className === modal.modal) {
+              coreModal.closeModal();
+            }
+          }}
+          addRow={() => {
+            addRow();
+            coreModal.closeModal();
+          }}
+        />
+      )}
+    </div>
   );
 };
 
