@@ -94,3 +94,13 @@
   border-radius: 10px;
   white-space: nowrap;
 }
+
+.invalidDiscipline {
+  background-color: #ffcccc; /* светло-красный фон */
+  border: 2px solid #ff8888; /* красная рамка */
+}
+
+/* Можно добавить hover-эффект для invalid элементов */
+.invalidDiscipline:hover {
+  background-color: #ffbbbb;
+}
