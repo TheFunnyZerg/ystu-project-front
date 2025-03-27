@@ -19,6 +19,11 @@ interface SemesterTableProps {
     rowIndex: number,
     colIndex: number
   ) => void;
+  handleDisciplineDelete: (
+    discipline: Discipline,
+    rowIndex: number,
+    colIndex: number
+  ) => void;
   calculateTotalCredits: () => number;
   calculateColumnCredits: () => number[];
   openCoreModal: () => void;
@@ -31,6 +36,7 @@ export const SemesterTable = ({
   selectedDiscipline,
   handleDragStart,
   handleDrop,
+  handleDisciplineDelete,
   calculateTotalCredits,
   calculateColumnCredits,
   openCoreModal,
@@ -66,6 +72,7 @@ export const SemesterTable = ({
                     onDragStart={() =>
                       handleDragStart(discipline, rowIndex, colIndex)
                     }
+                    deleteDisc={() => handleDisciplineDelete(discipline, rowIndex, colIndex)}
                   />
                 ))}
               </td>

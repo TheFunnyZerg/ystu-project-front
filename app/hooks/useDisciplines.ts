@@ -82,6 +82,7 @@ export const useDisciplines = (setRows: (rows: any) => void) => {
       practicalHours: 36,
     },
   ]);
+
   const [selectedDiscipline, setSelectedDiscipline] =
     useState<Discipline | null>(null);
 

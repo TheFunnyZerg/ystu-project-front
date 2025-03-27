@@ -8,6 +8,7 @@ interface DisciplineItemProps {
   discipline: Discipline;
   onClick: () => void;
   onDragStart: () => void;
+  deleteDisc: () => void;
   isActive?: boolean;
 }
 
@@ -15,6 +16,7 @@ export const DisciplineItem = ({
   discipline,
   onClick,
   onDragStart,
+  deleteDisc,
   isActive = false,
 }: DisciplineItemProps) => {
   const isInvalid =
@@ -44,6 +46,12 @@ export const DisciplineItem = ({
         </span>
         <span className={table.disciplineInfoItem}>
           {discipline.department}
+        </span>
+        <span 
+          className={table.deleteButton}
+          onClick={deleteDisc}
+        >
+          <div>X</div>
         </span>
       </div>
     </div>
