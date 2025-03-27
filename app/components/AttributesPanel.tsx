@@ -29,6 +29,17 @@ export const AttributesPanel = ({
 }: AttributesPanelProps) => {
   const searchInputRef = useRef<HTMLDivElement>(null);
 
+  // Новая функция для обработки числовых изменений
+  const handleNumberChange = (
+    field: keyof Discipline,
+    value: string,
+    min: number = 0
+  ) => {
+    const numericValue = Number(value);
+    const finalValue = isNaN(numericValue) ? min : Math.max(numericValue, min);
+    handleAttributeChange(field, finalValue);
+  };
+
   // Проверка условий для подсветки
   const isInvalidCredits = selectedDiscipline
     ? selectedDiscipline.credits >= 10 || selectedDiscipline.credits <= 0
@@ -67,10 +78,9 @@ export const AttributesPanel = ({
         type="number"
         className={isInvalidCredits ? attributes.invalid : ""}
         value={selectedDiscipline?.credits ?? 1}
-        onChange={(e) =>
-          handleAttributeChange("credits", parseInt(e.target.value))
-        }
+        onChange={(e) => handleNumberChange("credits", e.target.value, 1)}
         disabled={!selectedDiscipline}
+        min="1"
       />
 
       <label>Вид зачёта</label>
@@ -164,10 +174,9 @@ export const AttributesPanel = ({
         type="number"
         className={isInvalidLectureHours ? attributes.invalid : ""}
         value={selectedDiscipline?.lectureHours ?? 0}
-        onChange={(e) =>
-          handleAttributeChange("lectureHours", parseInt(e.target.value))
-        }
+        onChange={(e) => handleNumberChange("lectureHours", e.target.value)}
         disabled={!selectedDiscipline}
+        min="0"
       />
 
       <label>Часы по лабораторным</label>
@@ -175,10 +184,9 @@ export const AttributesPanel = ({
         type="number"
         className={isInvalidLabHours ? attributes.invalid : ""}
         value={selectedDiscipline?.labHours ?? 0}
-        onChange={(e) =>
-          handleAttributeChange("labHours", parseInt(e.target.value))
-        }
+        onChange={(e) => handleNumberChange("labHours", e.target.value)}
         disabled={!selectedDiscipline}
+        min="0"
       />
 
       <label>Часы по практическим</label>
@@ -186,10 +194,9 @@ export const AttributesPanel = ({
         type="number"
         className={isInvalidPracticalHours ? attributes.invalid : ""}
         value={selectedDiscipline?.practicalHours ?? 0}
-        onChange={(e) =>
-          handleAttributeChange("practicalHours", parseInt(e.target.value))
-        }
+        onChange={(e) => handleNumberChange("practicalHours", e.target.value)}
         disabled={!selectedDiscipline}
+        min="0"
       />
     </aside>
   );
