@@ -18,6 +18,7 @@ import { useDisciplines } from "@/app/hooks/useDisciplines";
 import { useTableState } from "@/app/hooks/useTableState";
 import { useAlert } from "@/app/hooks/useAlert";
 import { useDragAndDrop } from "@/app/hooks/useDragAndDrop";
+import { useDiscDelete } from "./hooks/useDiscDelete";
 import { useCompetences } from "@/app/hooks/useCompetences";
 import { useModals } from "@/app/hooks/useModals";
 
@@ -42,6 +43,12 @@ const Home = () => {
   const { alertMessage, showAlert, closeAlert } = useAlert();
 
   const { handleDragStart, handleDrop } = useDragAndDrop(
+    rows,
+    setRows,
+    disciplines,
+  );
+
+  const {handleDisciplineDelete} = useDiscDelete(
     rows,
     setRows,
     disciplines,
@@ -105,6 +112,7 @@ const Home = () => {
               calculateTotalCredits={calculateTotalCredits}
               calculateColumnCredits={calculateColumnCredits}
               openCoreModal={coreModal.openModal}
+              handleDisciplineDelete={handleDisciplineDelete}
             />
           </main>
         </div>
