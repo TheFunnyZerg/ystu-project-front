@@ -8,15 +8,16 @@ import { Discipline, TableRow } from "@/app/types";
 interface SemesterTableProps {
   columns: number;
   rows: TableRow[];
+  selectedDiscipline?: Discipline | null;
   handleDragStart: (
     discipline: Discipline,
     rowIndex?: number,
-    colIndex?: number,
+    colIndex?: number
   ) => void;
   handleDrop: (
     e: React.DragEvent<HTMLTableCellElement>,
     rowIndex: number,
-    colIndex: number,
+    colIndex: number
   ) => void;
   calculateTotalCredits: () => number;
   calculateColumnCredits: () => number[];
@@ -27,6 +28,7 @@ interface SemesterTableProps {
 export const SemesterTable = ({
   columns,
   rows,
+  selectedDiscipline,
   handleDragStart,
   handleDrop,
   calculateTotalCredits,
@@ -59,6 +61,7 @@ export const SemesterTable = ({
                   <DisciplineItem
                     key={`${discipline.id}-${index}`}
                     discipline={discipline}
+                    isActive={selectedDiscipline?.id === discipline.id}
                     onClick={() => handleDisciplineClick(discipline)}
                     onDragStart={() =>
                       handleDragStart(discipline, rowIndex, colIndex)

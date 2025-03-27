@@ -6,48 +6,54 @@ export const useDragAndDrop = (
   setRows: React.Dispatch<React.SetStateAction<TableRow[]>>,
   disciplines: Discipline[],
 ) => {
-  const [draggedDiscipline, setDraggedDiscipline] = useState<Discipline | null>(
-    null,
-  );
+  const [draggedDiscipline, setDraggedDiscipline] = useState<Discipline | null>(null);
 
   const handleDragStart = (
     discipline: Discipline,
     sourceRowIndex?: number,
     sourceColIndex?: number,
   ) => {
-    const actualDiscipline =
-      disciplines.find((d) => d.id === discipline.id) || discipline;
-    setDraggedDiscipline(actualDiscipline);
-
-    if (sourceRowIndex !== undefined && sourceColIndex !== undefined) {
-      actualDiscipline.sourcePosition = {
-        rowIndex: sourceRowIndex,
-        colIndex: sourceColIndex,
-      };
-    }
+    const template: Discipline = {
+      ...discipline,
+      sourcePosition: sourceRowIndex !== undefined && sourceColIndex !== undefined 
+        ? { rowIndex: sourceRowIndex, colIndex: sourceColIndex }
+        : undefined
+    };
+    
+    setDraggedDiscipline(template);
   };
 
   const handleDrop = (
     e: React.DragEvent<HTMLTableCellElement>,
     rowIndex: number,
     colIndex: number,
+    modifier?: (d: Discipline) => Partial<Discipline>
   ) => {
     e.preventDefault();
     if (!draggedDiscipline) return;
 
-    const updatedRows = [...rows];
+    const newId = Date.now() + Math.floor(Math.random() * 1000);
+
+    const newDiscipline: Discipline = {
+      ...draggedDiscipline,
+      id: newId,
+      ...(modifier ? modifier(draggedDiscipline) : {}),
+      sourcePosition: undefined
+    };
+
+    const updatedRows = rows.map(row => ({
+      ...row,
+      data: row.data.map(cell => [...cell])
+    }));
 
     if (draggedDiscipline.sourcePosition) {
       const { rowIndex: sri, colIndex: sci } = draggedDiscipline.sourcePosition;
       updatedRows[sri].data[sci] = updatedRows[sri].data[sci].filter(
-        (d) => d.id !== draggedDiscipline.id,
+        d => d.id !== draggedDiscipline.id
       );
     }
 
-    updatedRows[rowIndex].data[colIndex] = [
-      ...updatedRows[rowIndex].data[colIndex],
-      draggedDiscipline,
-    ];
+    updatedRows[rowIndex].data[colIndex].push(newDiscipline);
 
     setRows(updatedRows);
     setDraggedDiscipline(null);
@@ -56,7 +62,7 @@ export const useDragAndDrop = (
   return {
     handleDragStart,
     handleDrop,
-    handleDragOver: (e: React.DragEvent<HTMLTableCellElement>) =>
+    handleDragOver: (e: React.DragEvent<HTMLTableCellElement>) => 
       e.preventDefault(),
   };
 };
