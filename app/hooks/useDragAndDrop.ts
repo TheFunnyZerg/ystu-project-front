@@ -13,7 +13,6 @@ export const useDragAndDrop = (
     sourceRowIndex?: number,
     sourceColIndex?: number,
   ) => {
-    // Создаем шаблон с исходной позицией
     const template: Discipline = {
       ...discipline,
       sourcePosition: sourceRowIndex !== undefined && sourceColIndex !== undefined 
@@ -33,10 +32,8 @@ export const useDragAndDrop = (
     e.preventDefault();
     if (!draggedDiscipline) return;
 
-    // Генерация нового ID как числа
     const newId = Date.now() + Math.floor(Math.random() * 1000);
 
-    // Создаем новый экземпляр дисциплины
     const newDiscipline: Discipline = {
       ...draggedDiscipline,
       id: newId,
@@ -49,7 +46,6 @@ export const useDragAndDrop = (
       data: row.data.map(cell => [...cell])
     }));
 
-    // Удаление из исходной позиции (если есть)
     if (draggedDiscipline.sourcePosition) {
       const { rowIndex: sri, colIndex: sci } = draggedDiscipline.sourcePosition;
       updatedRows[sri].data[sci] = updatedRows[sri].data[sci].filter(
@@ -57,7 +53,6 @@ export const useDragAndDrop = (
       );
     }
 
-    // Добавляем новый экземпляр в целевую ячейку
     updatedRows[rowIndex].data[colIndex].push(newDiscipline);
 
     setRows(updatedRows);

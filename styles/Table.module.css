@@ -50,7 +50,6 @@
   min-height: 40px;
 }
 
-/* Контейнер для основного контента и боковой панели атрибутов */
 .content-wrapper {
   display: flex;
   flex: 1;
@@ -96,11 +95,10 @@
 }
 
 .invalidDiscipline {
-  background-color: #ffcccc; /* светло-красный фон */
-  border: 2px solid #ff8888; /* красная рамка */
+  background-color: #ffcccc;
+  border: 2px solid #ff8888;
 }
 
-/* Можно добавить hover-эффект для invalid элементов */
 .invalidDiscipline:hover {
   background-color: #ffbbbb;
 }
@@ -116,7 +114,6 @@
 }
 
 .disciplineItem.active.invalidDiscipline {
-  /* Специфичные стили для одновременного состояния */
   border: 2px solid #ff0000;
   background-color: #ffcccc;
 }
