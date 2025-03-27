@@ -28,6 +28,7 @@ interface SemesterTableProps {
   calculateColumnCredits: () => number[];
   openCoreModal: () => void;
   handleDisciplineClick: (discipline: Discipline) => void;
+  handleRowDelete: (rowIndex: number) => void;
 }
 
 export const SemesterTable = ({
@@ -41,6 +42,7 @@ export const SemesterTable = ({
   calculateColumnCredits,
   openCoreModal,
   handleDisciplineClick,
+  handleRowDelete,
 }: SemesterTableProps) => {
   return (
     <table className={table["table"]}>
@@ -55,7 +57,15 @@ export const SemesterTable = ({
       <tbody>
         {rows.map((row, rowIndex) => (
           <tr key={rowIndex}>
-            <td style={{ background: row.color }}>{row.name}</td>
+            <td className={table["row-name"]} style={{ background: row.color }}>
+              {row.name}
+              <span
+                className={table["delete-row"]}
+                onClick={() => handleRowDelete(rowIndex)}
+              >
+                &times;
+              </span>
+            </td>
             {row.data.map((cell, colIndex) => (
               <td
                 key={colIndex}
@@ -72,7 +82,9 @@ export const SemesterTable = ({
                     onDragStart={() =>
                       handleDragStart(discipline, rowIndex, colIndex)
                     }
-                    deleteDisc={() => handleDisciplineDelete(discipline, rowIndex, colIndex)}
+                    deleteDisc={() =>
+                      handleDisciplineDelete(discipline, rowIndex, colIndex)
+                    }
                   />
                 ))}
               </td>

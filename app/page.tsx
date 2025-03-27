@@ -31,6 +31,7 @@ const Home = () => {
     calculateTotalCredits,
     calculateColumnCredits,
     addRow,
+    handleRowDelete,
   } = useTableState();
 
   const {
@@ -45,14 +46,10 @@ const Home = () => {
   const { handleDragStart, handleDrop } = useDragAndDrop(
     rows,
     setRows,
-    disciplines,
+    disciplines
   );
 
-  const {handleDisciplineDelete} = useDiscDelete(
-    rows,
-    setRows,
-    disciplines,
-  );
+  const { handleDisciplineDelete } = useDiscDelete(rows, setRows, disciplines);
 
   const {
     searchQuery,
@@ -113,6 +110,7 @@ const Home = () => {
               calculateColumnCredits={calculateColumnCredits}
               openCoreModal={coreModal.openModal}
               handleDisciplineDelete={handleDisciplineDelete}
+              handleRowDelete={handleRowDelete}
             />
           </main>
         </div>
