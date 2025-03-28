@@ -20,7 +20,21 @@ export const useDisciplines = (setRows: (rows: any) => void) => {
         }
 
         const data = await response.json();
-        setDisciplines(data);
+
+        const disciplinesWithDefaults = data.map((discipline: Partial<Discipline>) => ({
+          credits: 1,
+          examType: "Экзамен",
+          hasCourseWork: false,
+          hasPracticalWork: false,
+          department: "Кафедра 1",
+          competenceCodes: [],
+          lectureHours: 1,
+          labHours: 1,
+          practicalHours: 1,
+          ...discipline,
+        }));
+
+        setDisciplines(disciplinesWithDefaults);
       } catch (err) {
         console.error('Ошибка получения дисциплин: ', err);
       }
