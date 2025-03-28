@@ -23,10 +23,10 @@ export const useDisciplines = (setRows: (rows: any) => void) => {
 
         const disciplinesWithDefaults = data.map((discipline: Partial<Discipline>) => ({
           credits: 1,
-          examType: "Экзамен",
+          examType: "Э",
           hasCourseWork: false,
           hasPracticalWork: false,
-          department: "Кафедра 1",
+          department: "ИСТ",
           competenceCodes: [],
           lectureHours: 1,
           labHours: 1,

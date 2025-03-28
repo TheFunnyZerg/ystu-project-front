@@ -91,12 +91,13 @@ export const AttributesPanel = ({
 
       <label>Вид зачёта</label>
       <select
-        value={selectedDiscipline?.examType || "Экзамен"}
+        value={selectedDiscipline?.examType || "Э"}
         onChange={(e) => handleAttributeChange("examType", e.target.value)}
         disabled={!selectedDiscipline}
       >
-        <option>Экзамен</option>
-        <option>Зачет</option>
+        <option>Э</option>
+        <option>З</option>
+        <option>ДЗ</option>
       </select>
 
       <div className={attributes["checkbox-row"]}>
@@ -132,9 +133,9 @@ export const AttributesPanel = ({
         onChange={(e) => handleAttributeChange("department", e.target.value)}
         disabled={!selectedDiscipline}
       >
-        <option>Кибернетика</option>
-        <option>Кафедра 1</option>
-        <option>Кафедра 2</option>
+        <option>ИСТ</option>
+        <option>ГН</option>
+        <option>Ф</option>
       </select>
 
       <label>Коды компетенций</label>
