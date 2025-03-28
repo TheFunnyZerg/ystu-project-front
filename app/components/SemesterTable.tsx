@@ -1,7 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import table from "@/styles/Table.module.css";
+import { ConfirmationModal } from "@/app/components/ConfirmationModal";
 import { DisciplineItem } from "./DisciplineItem";
 import { Discipline, TableRow } from "@/app/types";
 
@@ -44,68 +45,98 @@ export const SemesterTable = ({
   handleDisciplineClick,
   handleRowDelete,
 }: SemesterTableProps) => {
+  const [rowToDelete, setRowToDelete] = useState<number | null>(null);
+
+  const confirmRowDelete = (rowIndex: number) => {
+    setRowToDelete(rowIndex);
+  };
+
+  const handleConfirmDelete = () => {
+    if (rowToDelete !== null) {
+      handleRowDelete(rowToDelete);
+      setRowToDelete(null);
+    }
+  };
+
+  const handleCancelDelete = () => {
+    setRowToDelete(null);
+  };
+
   return (
-    <table className={table["table"]}>
-      <thead>
-        <tr>
-          <th></th>
-          {Array.from({ length: columns }, (_, i) => (
-            <th key={i}>Семестр {i + 1}</th>
-          ))}
-        </tr>
-      </thead>
-      <tbody>
-        {rows.map((row, rowIndex) => (
-          <tr key={rowIndex}>
-            <td className={table["row-name"]} style={{ background: row.color }}>
-              {row.name}
-              <span
-                className={table["delete-row"]}
-                onClick={() => handleRowDelete(rowIndex)}
-              >
-                &times;
-              </span>
-            </td>
-            {row.data.map((cell, colIndex) => (
-              <td
-                key={colIndex}
-                style={{ background: row.color }}
-                onDragOver={(e) => e.preventDefault()}
-                onDrop={(e) => handleDrop(e, rowIndex, colIndex)}
-              >
-                {cell.map((discipline, index) => (
-                  <DisciplineItem
-                    key={`${discipline.id}-${index}`}
-                    discipline={discipline}
-                    isActive={selectedDiscipline?.id === discipline.id}
-                    onClick={() => handleDisciplineClick(discipline)}
-                    onDragStart={() =>
-                      handleDragStart(discipline, rowIndex, colIndex)
-                    }
-                    deleteDisc={() =>
-                      handleDisciplineDelete(discipline, rowIndex, colIndex)
-                    }
-                  />
-                ))}
-              </td>
+    <>
+      <table className={table["table"]}>
+        <thead>
+          <tr>
+            <th></th>
+            {Array.from({ length: columns }, (_, i) => (
+              <th key={i}>Семестр {i + 1}</th>
             ))}
           </tr>
-        ))}
-        <tr>
-          <td>Общая сумма ЗЕ: {calculateTotalCredits()}</td>
-          {calculateColumnCredits().map((credits, colIndex) => (
-            <td key={colIndex}>{credits} ЗЕ</td>
+        </thead>
+        <tbody>
+          {rows.map((row, rowIndex) => (
+            <tr key={rowIndex}>
+              <td
+                className={table["row-name"]}
+                style={{ background: row.color }}
+              >
+                {row.name}
+                <span
+                  className={table["delete-row"]}
+                  onClick={() => confirmRowDelete(rowIndex)}
+                >
+                  &times;
+                </span>
+              </td>
+              {row.data.map((cell, colIndex) => (
+                <td
+                  key={colIndex}
+                  style={{ background: row.color }}
+                  onDragOver={(e) => e.preventDefault()}
+                  onDrop={(e) => handleDrop(e, rowIndex, colIndex)}
+                >
+                  {cell.map((discipline, index) => (
+                    <DisciplineItem
+                      key={`${discipline.id}-${index}`}
+                      discipline={discipline}
+                      isActive={selectedDiscipline?.id === discipline.id}
+                      onClick={() => handleDisciplineClick(discipline)}
+                      onDragStart={() =>
+                        handleDragStart(discipline, rowIndex, colIndex)
+                      }
+                      deleteDisc={() =>
+                        handleDisciplineDelete(discipline, rowIndex, colIndex)
+                      }
+                    />
+                  ))}
+                </td>
+              ))}
+            </tr>
           ))}
-        </tr>
-      </tbody>
-      <tfoot>
-        <tr>
-          <td className={table.addRow} onClick={openCoreModal}>
-            <AddRowIcon />
-          </td>
-        </tr>
-      </tfoot>
-    </table>
+          <tr>
+            <td>Общая сумма ЗЕ: {calculateTotalCredits()}</td>
+            {calculateColumnCredits().map((credits, colIndex) => (
+              <td key={colIndex}>{credits} ЗЕ</td>
+            ))}
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td className={table.addRow} onClick={openCoreModal}>
+              <AddRowIcon />
+            </td>
+          </tr>
+        </tfoot>
+      </table>
+
+      {rowToDelete !== null && (
+        <ConfirmationModal
+          confirmationText="Вы действительно хотите удалить ядро?"
+          handleConfirmDelete={handleConfirmDelete}
+          handleCancelDelete={handleCancelDelete}
+        />
+      )}
+    </>
   );
 };
 
