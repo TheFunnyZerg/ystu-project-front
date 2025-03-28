@@ -47,7 +47,12 @@ export const useDisciplines = (setRows: (rows: any) => void) => {
 
     const updatedDisciplines = disciplines.map((disc) => {
       if (disc.id === selectedDiscipline.id) {
-        return { ...disc, [field]: value };
+        let updDisc = { ...disc, [field]: value };
+
+        if (value === "Э") {
+          updDisc.credits =  selectedDiscipline.credits - 1;
+        }
+        return updDisc;
       }
       return disc;
     });
