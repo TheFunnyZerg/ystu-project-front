@@ -70,10 +70,6 @@ const Home = () => {
     setSelectedDiscipline(actualDiscipline);
   };
 
-  const checkStudyPlan = () => {
-    showAlert("Ошибок не найдено.");
-  };
-
   return (
     <div className={container["container"]}>
       <Head>
@@ -90,7 +86,6 @@ const Home = () => {
 
       <div className={mainContent["main-content"]}>
         <Sidebar
-          checkStudyPlan={checkStudyPlan}
           disciplines={disciplines}
           selectedDiscipline={selectedDiscipline}
           handleDisciplineClick={handleDisciplineClick}
