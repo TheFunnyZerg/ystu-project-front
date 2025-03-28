@@ -50,12 +50,10 @@ export const useDisciplines = (setRows: (rows: any) => void) => {
         let updDisc = { ...disc, [field]: value };
 
         if (field === "examType") {
-          // Предыдущее значение было не "Э", а новое — "Э"
-          if (selectedDiscipline.examType !== "Э" && value === "Э") {
+          // используем старое значение внутри disc.examType
+          if (disc.examType !== "Э" && value === "Э") {
             updDisc.credits = disc.credits - 1;
-          }
-          // Если наоборот, убираем "Э" и возвращаем 1 балл
-          else if (selectedDiscipline.examType === "Э" && value !== "Э") {
+          } else if (disc.examType === "Э" && value !== "Э") {
             updDisc.credits = disc.credits + 1;
           }
         }
