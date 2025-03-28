@@ -5,7 +5,7 @@ export const useDisciplines = (setRows: (rows: any) => void) => {
   const [disciplines, setDisciplines] = useState<Discipline[]>([
     {
       id: 1,
-      name: "Дисциплина 1",
+      name: "Инфокоммуникационные системы и технологии",
       credits: 1,
       examType: "Экзамен",
       hasCourseWork: false,
