@@ -96,6 +96,14 @@
 .disciplineName {
   font-weight: bold;
   margin-bottom: 4px;
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  -webkit-hyphens: auto;
+  -ms-hyphens: auto;
+  hyphens: auto;
+  max-width: 100%;
+  hyphenate-limit-chars: 6 3 2;
 }
 
 .disciplineInfo {

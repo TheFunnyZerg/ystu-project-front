@@ -38,7 +38,7 @@ export const DisciplineItem = ({
       draggable
       onDragStart={onDragStart}
     >
-      <div className={table.disciplineName}>{discipline.name}</div>
+      <div className={table.disciplineName} title={discipline.name} lang="ru">{discipline.name}</div>
       <div className={table.disciplineInfo}>
         <span className={table.disciplineInfoItem}>{discipline.examType}</span>
         <span className={table.disciplineInfoItem}>
