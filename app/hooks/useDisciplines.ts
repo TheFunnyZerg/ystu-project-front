@@ -33,7 +33,6 @@ export const useDisciplines = (setRows: (rows: any) => void) => {
           practicalHours: 1,
           ...discipline,
         }));
-
         setDisciplines(disciplinesWithDefaults);
       } catch (err) {
         console.error('Ошибка получения дисциплин: ', err);
@@ -57,14 +56,14 @@ export const useDisciplines = (setRows: (rows: any) => void) => {
     setSelectedDiscipline((prev) => prev && { ...prev, [field]: value });
 
     setRows((prevRows: any[]) =>
-        prevRows.map((row) => ({
-          ...row,
-          data: row.data.map((cell: Discipline[]) =>
-              cell.map((d) =>
-                  d.id === selectedDiscipline.id ? { ...d, [field]: value } : d
-              ),
+      prevRows.map((row) => ({
+        ...row,
+        data: row.data.map((cell: Discipline[]) =>
+          cell.map((d) =>
+            d.id === selectedDiscipline.id ? { ...d, [field]: value } : d,
           ),
-        })),
+        ),
+      })),
     );
   };
 
