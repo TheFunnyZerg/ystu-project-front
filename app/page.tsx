@@ -71,7 +71,20 @@ const Home = () => {
   };
 
   const checkStudyPlan = () => {
-    showAlert("Ошибок не найдено.");
+    fetch('http://host.docker.internal:8000/validations/validate-up', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(rows),
+    })
+        .then((response) => response.json())
+        .then((data) => {
+          showAlert(data.isValid ? "Данные валидны! Ошибок не найдено" : "Данные не валидны! Найдены ошибки в плане обучения.")
+        })
+        .catch((error) => {
+          showAlert(error)
+        })
   };
 
   return (
